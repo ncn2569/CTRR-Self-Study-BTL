@@ -1,0 +1,1 @@
+Đây là quá trình học cải thiện môn CTRR của tôi, quyết tâm B+ thậm chí là A môn này nha. 
