@@ -86,6 +86,8 @@ inline PathNode* build_linked_list(
 
 double heuristic_task_1(int x,int goal, double matrix[100][100]);
 
+double convert_2d_2_1d(); // xem xét
+
 // task 1
 PathNode* findSocialPath(double adjMatrix[100][100], int startPerson, int goalPerson);
 // task 2
