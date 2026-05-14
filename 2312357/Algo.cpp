@@ -133,7 +133,7 @@ PathNode* findDronePath(double adjMatrix[100][100], int coords[100][2],
             h[i]=MAX;
             visited[i]=false;
             parents[i]=-1;      
-            names[i]='('+to_string(coords[i][0])+','+to_string(coords[i][1])+')';
+            names[i]="("+to_string(coords[i][0])+","+to_string(coords[i][1])+")";
         };
         g[startPoint]=0;
         h[startPoint]=heuristic_task_2(coords[startPoint][0],coords[goalPoint][0],
@@ -178,16 +178,88 @@ double heuristic_task_3(int x1,int x2,int y1,int y2, int mode){
     }
     return 0.0;
 };
-
+//Task 3 dùng flattening
+//id=x*100+y
+//x=id/100
+//y=id%100
 PathNode* findWarehousePath(int warehouse[100][100], int m, int n, int startX,
     int startY, int goalX, int goalY, int mode){
-        double g[100],h[100];
-        bool visited[100];
+        double g[10000],h[10000];
+        bool visited[10000];
         MinHeap ncn;
-        string names[100];
-        int parents[100];
+        string names[10000];
+        int parents[10000];
         vector<int> path;
+        //helper from 2d to 1d 
+        const int dx[] = {-1, 1, 0, 0, -1, -1, 1, 1};
+        const int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+        const double m_cost[] = {1.0, 1.0, 1.0, 1.0, 1.5, 1.5, 1.5, 1.5};
+        const string directions[] = {"Up", "Down", "Left", "Right", "Up-Left", "Up-Right", "Down-Left", "Down-Right"};
+        
+        int startPoint=startX*100+startY;
+        int goalPoint=goalX*100+goalY;
+        
+        if (startPoint==goalPoint){
+            PathNode* head=nullptr;
+            string name="("+to_string(startX)+","+to_string(startY)+")";
+            head = new PathNode(name,0,0,0);
+            return head;
+        }
 
-
-        return build_linked_list(path,g,h,names);
+        for (int i=0;i<10000;i++){
+            g[i]=MAX;
+            h[i]=MAX;
+            visited[i]=false;
+            parents[i]=-1;      
+        };
+        g[startPoint]=0;
+        h[startPoint]=heuristic_task_3(startX,goalX,
+            startY,goalY,mode);
+        names[startPoint]="("+to_string(startX)+","+to_string(startY)+")";
+        ncn.push(g[startPoint]+h[startPoint],h[startPoint],startPoint); // tutu tính
+        
+        while (!ncn.empty()){
+            HeapNode temp=ncn.pop();
+            if (temp.id==(goalPoint)) break;
+            if (visited[temp.id]==true) continue;
+            visited[temp.id]=true;
+            int tx=temp.id/100;
+            int ty=temp.id%100;
+            for (int i=0;i<8;i++){
+                int nx=tx+dx[i];
+                int ny=ty+dy[i];
+                if ((nx >= 0 && nx <= m-1 && ny >= 0 && ny <= n-1)){
+                    if (warehouse[nx][ny]==0){
+                        int new_id=nx*100+ny;
+                        double g_new=g[temp.id]+m_cost[i];
+                        if (g_new<g[new_id]){
+                            double h_new=heuristic_task_3(nx,goalX,
+                                        ny,goalY,mode);
+                            ncn.push(g_new+h_new,h_new,new_id);
+                            parents[new_id]=temp.id;
+                            names[new_id]=directions[i];
+                            g[new_id]=g_new;
+                            h[new_id]=h_new;
+                        }
+                    }
+                    else if(warehouse[nx][ny]==1) continue;
+                }
+                
+            }
+        }
+        if(parents[goalPoint]==-1) return nullptr;
+        int i =goalPoint;
+        
+        while (parents[i]!=-1){
+            path.push_back(parents[i]);
+            i=parents[i];
+        };
+        reverse(path.begin(),path.end());
+        path.push_back(goalPoint);
+        PathNode* trick;
+        trick=build_linked_list(path,g,h,names);
+        if (trick==nullptr) return nullptr;
+        PathNode* head = trick->next;
+        delete trick; // Dọn dẹp node Start dư thừa
+        return head;
     };

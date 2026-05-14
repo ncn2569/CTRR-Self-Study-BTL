@@ -119,7 +119,7 @@ void Test_Task2() {
     reset_double(adjMatrix);
     coords[0][0] = 0; coords[0][1] = 0;
     path = findDronePath(adjMatrix, coords, 0, 0, 1);
-    cout << "expected: Node 0 | f=0 | g=0 | h=0\n";
+    cout << "expected: Node (0,0) | f=0 | g=0 | h=0\n";
     printPath(path);
  
     // ----------------------------------------------------------
@@ -137,7 +137,7 @@ void Test_Task2() {
     coords[1][0] = 3; coords[1][1] = 4;
     adjMatrix[0][1] = 5.0;
     path = findDronePath(adjMatrix, coords, 0, 1, 1);
-    cout << "expected: 0(g=0,h=7,f=7) -> 1(g=5,h=0,f=5)\n";
+    cout << "expected: (0,0)(g=0,h=7,f=7) -> (3,4)(g=5,h=0,f=5)\n";
     printPath(path);
  
     cout << "\n[TC2b] 1 buoc - mode 2 (Euclidean)\n";
@@ -146,7 +146,7 @@ void Test_Task2() {
     coords[1][0] = 3; coords[1][1] = 4;
     adjMatrix[0][1] = 5.0;
     path = findDronePath(adjMatrix, coords, 0, 1, 2);
-    cout << "expected: 0(g=0,h=5.0,f=5.0) -> 1(g=5,h=0,f=5)\n";
+    cout << "expected: (0,0)(g=0,h=5.0,f=5.0) -> (3,4)(g=5,h=0,f=5)\n";
     printPath(path);
  
     cout << "\n[TC2c] 1 buoc - mode 3 (Chebyshev)\n";
@@ -155,7 +155,7 @@ void Test_Task2() {
     coords[1][0] = 3; coords[1][1] = 4;
     adjMatrix[0][1] = 5.0;
     path = findDronePath(adjMatrix, coords, 0, 1, 3);
-    cout << "expected: 0(g=0,h=4,f=4) -> 1(g=5,h=0,f=5)\n";
+    cout << "expected: (0,0)(g=0,h=4,f=4) -> (3,4)(g=5,h=0,f=5)\n";
     printPath(path);
  
     // ----------------------------------------------------------
@@ -178,7 +178,7 @@ void Test_Task2() {
     adjMatrix[1][2] = 3.0;
     adjMatrix[2][3] = 1.0;
     path = findDronePath(adjMatrix, coords, 0, 3, 1);
-    cout << "expected: 0(g=0,h=3,f=3)->1(g=2,h=2,f=4)->2(g=5,h=1,f=6)->3(g=6,h=0,f=6)\n";
+    cout << "expected: (0,0)(g=0,h=3,f=3)->(1,0)(g=2,h=2,f=4)->(2,0)(g=5,h=1,f=6)->(3,0)(g=6,h=0,f=6)\n";
     printPath(path);
  
     // ----------------------------------------------------------
@@ -203,7 +203,7 @@ void Test_Task2() {
     adjMatrix[2][3] = 1.0;
     adjMatrix[0][3] = 10.0;
     path = findDronePath(adjMatrix, coords, 0, 3, 2);
-    cout << "expected: 0->1->2->3 (g total = 3, not 10)\n";
+    cout << "expected: (0,0)->(1,0)->(2,0)->(3,0) (g total = 3, not 10)\n";
     printPath(path);
  
     // ----------------------------------------------------------
@@ -247,150 +247,171 @@ void Test_Task2() {
  
     cout << "--- mode 1 ---\n";
     path = findDronePath(adjMatrix, coords, 0, 2, 1);
-    cout << "expected: 0->2 (g=6)\n";
+    cout << "expected: (0,0)->(4,3) (g=6)\n";
     printPath(path);
  
     cout << "--- mode 2 ---\n";
     path = findDronePath(adjMatrix, coords, 0, 2, 2);
-    cout << "expected: 0->2 (g=6)\n";
+    cout << "expected: (0,0)->(4,3) (g=6)\n";
     printPath(path);
  
     cout << "--- mode 3 ---\n";
     path = findDronePath(adjMatrix, coords, 0, 2, 3);
-    cout << "expected: 0->2 (g=6)\n";
+    cout << "expected: (0,0)->(4,3) (g=6)\n";
     printPath(path);
  
     cout << "\n===============================================\n";
 };
  
-// // ============================================================
-// //  TASK 3 — Warehouse Robot Navigation
-// //  Grid m x n, 0=di duoc, 1=blocked
-// //  8 huong: Up/Down/Left/Right (cost 1), diagonal (cost 1.5)
-// //  Toa do: (row, col), (0,0) = goc tren trai
-// //  name cua node = ten huong di den o do (e.g. "Down", "Up-Right")
-// //  h mode 1 = Manhattan, mode 2 = Chebyshev
-// // ============================================================
-// void Test_Task3() {
-//     int warehouse[100][100];
-//     PathNode* path = nullptr;
+// ============================================================
+//  TASK 3 — Warehouse Robot Navigation
+//  Grid m x n, 0=di duoc, 1=blocked
+//  8 huong: Up/Down/Left/Right (cost 1), diagonal (cost 1.5)
+//  Toa do: (row, col), (0,0) = goc tren trai
+//  name cua node = ten huong di den o do (e.g. "Down", "Up-Right")
+//  h mode 1 = Manhattan, mode 2 = Chebyshev
+// ============================================================
+void Test_Task3() {
+    int warehouse[100][100];
+    PathNode* path = nullptr;
  
-//     cout << "========== TASK 3 TEST CASES ==========\n";
+    cout << "========== TASK 3 TEST CASES ==========\n";
  
-//     // ----------------------------------------------------------
-//     // TC1: start == goal
-//     // Grid 3x3 trong, start=(0,0), goal=(0,0)
-//     // Expected: 1 node (co the la node "Start" hoac node dau tien)
-//     //   -> theo dac ta: name = ten huong => node start khong co huong
-//     //   => thong thuong tra ve 1 node voi name="(0,0)" hoac tuong tu
-//     //   Kiem tra impl cu the cua ban
-//     // ----------------------------------------------------------
-//     cout << "\n[TC1] start == goal\n";
-//     reset_int(warehouse);
-//     path = findWarehousePath(warehouse, 3, 3, 0, 0, 0, 0, 1);
-//     cout << "expected: 1 node (start node)\n";
-//     printPath(path);
+    // ----------------------------------------------------------
+    // TC1: start == goal
+    // Grid 3x3 co tuong o (0,1) va (1,0), start=(0,0), goal=(0,0)
+    // 0 1 0
+    // 1 0 0
+    // 0 0 0
+    // Expected: 1 node (start node, khong co buoc di nao)
+    // ----------------------------------------------------------
+    cout << "\n[TC1] start == goal\n";
+    reset_int(warehouse);
+    warehouse[0][1] = 1;
+    warehouse[1][0] = 1;
+    path = findWarehousePath(warehouse, 3, 3, 0, 0, 0, 0, 1);
+    cout << "expected: 1 node (start node)\n";
+    printPath(path);
  
-//     // ----------------------------------------------------------
-//     // TC2: di thang 1 buoc xuong (Down)
-//     // Grid 3x3 trong
-//     // start=(0,0), goal=(1,0)
-//     // Chi co 1 buoc: Down, g=1
-//     // h mode 1: |1-0|+|0-0| = 1 (tai start), 0 (tai goal)
-//     // Expected: start_node -> "Down"(g=1,h=0,f=1)
-//     // ----------------------------------------------------------
-//     cout << "\n[TC2] 1 buoc Down - mode 1\n";
-//     reset_int(warehouse);
-//     path = findWarehousePath(warehouse, 3, 3, 0, 0, 1, 0, 1);
-//     cout << "expected: Down(g=1,h=0,f=1)\n";
-//     printPath(path);
+    // ----------------------------------------------------------
+    // TC2: di thang 1 buoc xuong (Down), co tuong ben canh
+    // Grid 3x3:
+    //   0 1 0
+    //   0 1 0
+    //   0 0 0
+    // start=(0,0), goal=(1,0)
+    // Hang xom phai (0,1) va (1,1) bi chan -> buoc Down la con duong duy nhat
+    // g=1, h(mode1) tại goal = 0
+    // Expected: Down(g=1,h=0,f=1)
+    // ----------------------------------------------------------
+    cout << "\n[TC2] 1 buoc Down - mode 1 (co tuong trai)\n";
+    reset_int(warehouse);
+    warehouse[0][1] = 1;
+    warehouse[1][1] = 1;
+    path = findWarehousePath(warehouse, 3, 3, 0, 0, 1, 0, 1);
+    cout << "expected: Down(g=1,h=0,f=1)\n";
+    printPath(path);
  
-//     // ----------------------------------------------------------
-//     // TC3: di cheo 1 buoc (Down-Right)
-//     // Grid 3x3 trong
-//     // start=(0,0), goal=(1,1)
-//     // 1 buoc cheo: Down-Right, g=1.5
-//     // h mode 2 Chebyshev tai start: max(1,1)=1
-//     // Expected: Down-Right(g=1.5,h=0,f=1.5)
-//     // ----------------------------------------------------------
-//     cout << "\n[TC3] 1 buoc cheo Down-Right - mode 2\n";
-//     reset_int(warehouse);
-//     path = findWarehousePath(warehouse, 3, 3, 0, 0, 1, 1, 2);
-//     cout << "expected: Down-Right(g=1.5,h=0,f=1.5)\n";
-//     printPath(path);
+    // ----------------------------------------------------------
+    // TC3: di cheo 1 buoc (Down-Right), co tuong chan huong thang
+    // Grid 3x3:
+    //   0 1 0
+    //   1 0 0
+    //   0 0 0
+    // start=(0,0), goal=(1,1)
+    // (0,1) va (1,0) bi chan -> khong the di Right roi Down, phai di cheo Down-Right
+    // g=1.5, h(mode2 Chebyshev) tai start: max(1,1)=1 -> f=2.5
+    // Expected: Down-Right(g=1.5,h=0,f=1.5)
+    // ----------------------------------------------------------
+    cout << "\n[TC3] 1 buoc cheo Down-Right - mode 2 (huong thang bi chan)\n";
+    reset_int(warehouse);
+    warehouse[0][1] = 1;
+    warehouse[1][0] = 1;
+    path = findWarehousePath(warehouse, 3, 3, 0, 0, 1, 1, 2);
+    cout << "expected: Down-Right(g=1.5,h=0,f=1.5)\n";
+    printPath(path);
  
-//     // ----------------------------------------------------------
-//     // TC4: co tuong, buoc di thang bi chan, phai di vong
-//     // Grid 4x4:
-//     //   0 0 0 0
-//     //   1 1 1 0
-//     //   0 0 0 0
-//     //   0 0 0 0
-//     // start=(0,0), goal=(2,0)
-//     // Khong the di thang xuong (0,0)->(1,0) vi bi chan
-//     // Phai di: (0,0)->Right->(0,1)->Right->(0,2)->Right->(0,3)->Down->(1,3)->Down->(2,3)->Left->(2,2)->Left->(2,1)->Left->(2,0)
-//     // hoac duong cheo ngan hon: (0,0)->Right(0,1)->Down-Right(1,2)->... khong duoc vi (1,2)=1
-//     // Duong dung: (0,0)->Down-Right(1,3) khong the vi (1,x) deu = 1 tru (1,3)
-//     // Di: Right, Right, Right, Down, Down, Left, Left, Left
-//     // g = 1+1+1+1+1+1+1+1 = 8
-//     // mode 1 Manhattan
-//     // ----------------------------------------------------------
-//     cout << "\n[TC4] co tuong - di vong - mode 1\n";
-//     reset_int(warehouse);
-//     warehouse[1][0] = 1;
-//     warehouse[1][1] = 1;
-//     warehouse[1][2] = 1;
-//     // warehouse[1][3] = 0 (mo)
-//     path = findWarehousePath(warehouse, 4, 4, 0, 0, 2, 0, 1);
-//     cout << "expected: Right,Right,Right,Down,Down,Left,Left,Left (g=8)\n";
-//     printPath(path);
+    // ----------------------------------------------------------
+    // TC4: co tuong, buoc di thang bi chan, phai di vong
+    // Grid 4x4:
+    //   0 0 0 0
+    //   1 1 1 0
+    //   0 0 0 0
+    //   0 0 0 0
+    // start=(0,0), goal=(2,0)
+    // (1,0),(1,1),(1,2) bi chan, (1,3) mo
+    // Duong toi uu: (0,0)->Down-Right(1,3)? Khong, (1,0)=1 nen chi co the di
+    //   Right(0,1)->Right(0,2)->Down-Right(1,3)->Down-Left(2,2)->Left(2,1)->Left(2,0)
+    //   g = 1+1+1.5+1.5+1+1 = 7.0
+    // Hoac: Right(0,1)->Right(0,2)->Right(0,3)->Down(1,3)->Down(2,3)->Left(2,2)->Left(2,1)->Left(2,0)
+    //   g = 1+1+1+1+1+1+1+1 = 8.0
+    // Duong toi uu: Right,Right,Down-Right,Down-Left,Left,Left (g=7.0)
+    // mode 1 Manhattan
+    // ----------------------------------------------------------
+    cout << "\n[TC4] co tuong - di vong qua canh phai - mode 1\n";
+    reset_int(warehouse);
+    warehouse[1][0] = 1;
+    warehouse[1][1] = 1;
+    warehouse[1][2] = 1;
+    // warehouse[1][3] = 0 (mo)
+    path = findWarehousePath(warehouse, 4, 4, 0, 0, 2, 0, 1);
+    cout << "expected: Right,Right,Down-Right,Down-Left,Left,Left (g=7.0)\n";
+    printPath(path);
  
-//     // ----------------------------------------------------------
-//     // TC5: khong co duong di (goal bi bao vay hoan toan)
-//     // Grid 3x3:
-//     //   0 1 0
-//     //   1 G 1
-//     //   0 1 0
-//     // G = goal tai (1,1), start=(0,0)
-//     // Goal bi bao vay 4 phia + 4 cheo deu bi chan
-//     // Expected: nullptr
-//     // ----------------------------------------------------------
-//     cout << "\n[TC5] goal bi bao vay - khong co duong\n";
-//     reset_int(warehouse);
-//     warehouse[0][1] = 1;
-//     warehouse[1][0] = 1;
-//     warehouse[1][2] = 1;
-//     warehouse[2][1] = 1;
-//     // 4 goc cheo cua (1,1): (0,0),(0,2),(2,0),(2,2) = 0 nhung
-//     // tat ca hang xom truc tiep deu = 1 -> goal khong the tiep can
-//     path = findWarehousePath(warehouse, 3, 3, 0, 0, 1, 1, 1);
-//     cout << "expected: nullptr\n";
-//     printPath(path);
+    // ----------------------------------------------------------
+    // TC5: khong co duong di (goal bi bao vay hoan toan ca 8 huong)
+    // Grid 5x5:
+    //   0 0 0 0 0
+    //   0 1 1 1 0
+    //   0 1 G 1 0
+    //   0 1 1 1 0
+    //   0 0 0 0 0
+    // G = goal tai (2,2), start=(0,0)
+    // Tat ca 8 hang xom cua (2,2) deu = 1 -> goal khong the tiep can
+    // Expected: nullptr
+    // ----------------------------------------------------------
+    cout << "\n[TC5] goal bi bao vay 8 huong - khong co duong\n";
+    reset_int(warehouse);
+    // Bao vay (2,2) bang vong tuong 8 o xung quanh
+    warehouse[1][1] = 1; warehouse[1][2] = 1; warehouse[1][3] = 1;
+    warehouse[2][1] = 1;                       warehouse[2][3] = 1;
+    warehouse[3][1] = 1; warehouse[3][2] = 1; warehouse[3][3] = 1;
+    path = findWarehousePath(warehouse, 5, 5, 0, 0, 2, 2, 1);
+    cout << "expected: nullptr\n";
+    printPath(path);
  
-//     // ----------------------------------------------------------
-//     // TC6: so sanh mode 1 vs mode 2 tren cung graph
-//     // Grid 5x5 trong
-//     // start=(0,0), goal=(4,4)
-//     // Mode 1 Manhattan: h = |dr|+|dc|, thich di thang
-//     // Mode 2 Chebyshev: h = max(|dr|,|dc|), thich di cheo
-//     // Chebyshev nen cho duong cheo hoan toan: 4 buoc cheo, g=6.0
-//     // Manhattan co the cho duong hon la di thang + cheo hon
-//     // Expected mode 2 (Chebyshev): 4 buoc Down-Right, g=6.0
-//     // ----------------------------------------------------------
-//     cout << "\n[TC6] mode 1 vs mode 2 - grid trong 5x5\n";
-//     reset_int(warehouse);
-//     cout << "--- mode 1 (Manhattan) ---\n";
-//     path = findWarehousePath(warehouse, 5, 5, 0, 0, 4, 4, 1);
-//     cout << "expected path co the la: mix buoc thang va cheo\n";
-//     printPath(path);
+    // ----------------------------------------------------------
+    // TC6: so sanh mode 1 vs mode 2 tren grid co tuong buoc huong
+    // Grid 5x5:
+    //   0 0 0 0 0
+    //   0 1 0 0 0
+    //   0 1 0 0 0
+    //   0 1 0 0 0
+    //   0 0 0 0 0
+    // start=(0,0), goal=(4,4)
+    // Cot 1 hang 1-3 bi chan -> khong the di thang cheo qua (1,1),(2,1),(3,1)
+    // Mode 1 (Manhattan): buoc xung quanh tuong, co the di Down(0,0)->(1,0)->(2,0)->(3,0)->(4,0)->Right..
+    // Mode 2 (Chebyshev): uu tien cheo -> (0,0)->Down-Right(1,1)? bi chan ->
+    //   phai xuong (1,0),(2,0),(3,0) roi cheo sang goal
+    // Ca 2 mode phai di vong qua cot 0, Chebyshev se cheo nhieu buoc hon
+    // ----------------------------------------------------------
+    cout << "\n[TC6] mode 1 vs mode 2 - grid co tuong doc\n";
+    reset_int(warehouse);
+    warehouse[1][1] = 1;
+    warehouse[2][1] = 1;
+    warehouse[3][1] = 1;
+    cout << "--- mode 1 (Manhattan) ---\n";
+    path = findWarehousePath(warehouse, 5, 5, 0, 0, 4, 4, 1);
+    cout << "expected: di vong qua cot 0, Manhattan\n";
+    printPath(path);
  
-//     cout << "--- mode 2 (Chebyshev) ---\n";
-//     path = findWarehousePath(warehouse, 5, 5, 0, 0, 4, 4, 2);
-//     cout << "expected: 4x Down-Right (g=6.0)\n";
-//     printPath(path);
+    cout << "--- mode 2 (Chebyshev) ---\n";
+    path = findWarehousePath(warehouse, 5, 5, 0, 0, 4, 4, 2);
+    cout << "expected: di vong qua cot 0, Chebyshev (nhieu buoc cheo hon)\n";
+    printPath(path);
  
-//     cout << "\n===============================================\n";
-// };
+    cout << "\n===============================================\n";
+};
  
 // // ============================================================
 // //  TASK 4 — Evacuation Route Planning
@@ -531,8 +552,8 @@ void Test_Task2() {
 // };
 int main() {
     //Test_Task1();
-    Test_Task2();
-    // Test_Task3();
+    //Test_Task2();
+    Test_Task3();
     // Test_Task4();
     return 0;
 };
