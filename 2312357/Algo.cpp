@@ -124,7 +124,7 @@ PathNode* findDronePath(double adjMatrix[100][100], int coords[100][2],
         vector<int> path;
         if (startPoint==goalPoint){
             PathNode* head=nullptr;
-            string name=to_string(startPoint);
+            string name='('+to_string(coords[startPoint][0])+','+to_string(coords[startPoint][1])+')';
             head = new PathNode(name,0,0,0);
             return head;
         }
@@ -133,13 +133,13 @@ PathNode* findDronePath(double adjMatrix[100][100], int coords[100][2],
             h[i]=MAX;
             visited[i]=false;
             parents[i]=-1;      
-            names[i]=to_string(i);
+            names[i]='('+to_string(coords[i][0])+','+to_string(coords[i][1])+')';
         };
         g[startPoint]=0;
         h[startPoint]=heuristic_task_2(coords[startPoint][0],coords[goalPoint][0],
             coords[startPoint][1],coords[goalPoint][1],mode);
         
-        ncn.push(g[startPoint]+h[goalPoint],h[goalPoint],startPoint);
+        ncn.push(g[startPoint]+h[startPoint],h[startPoint],startPoint); // tutu tính
         while (!ncn.empty()){
             HeapNode temp=ncn.pop();
             if (temp.id==goalPoint) break;
