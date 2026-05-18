@@ -413,148 +413,149 @@ void Test_Task3() {
     cout << "\n===============================================\n";
 };
  
-// // ============================================================
-// //  TASK 4 — Evacuation Route Planning
-// //  Giong Task 3 nhung:
-// //  - floorPlan thay vi warehouse (cung 0/1)
-// //  - Them weightMatrix[100][100] output: weightMatrix[x][y] = g(x,y)
-// //    cho cac o trong path, cac o khac giu nguyen = 0
-// //  - name: ten huong di (giong task 3)
-// //  - h mode 1 = Manhattan, mode 2 = Chebyshev
-// // ============================================================
-// void Test_Task4() {
-//     int floorPlan[100][100];
-//     double weightMatrix[100][100];
-//     PathNode* path = nullptr;
+// ============================================================
+//  TASK 4 — Evacuation Route Planning
+//  Giong Task 3 nhung:
+//  - floorPlan thay vi warehouse (cung 0/1)
+//  - Them weightMatrix[100][100] output: weightMatrix[x][y] = g(x,y)
+//    cho cac o trong path, cac o khac giu nguyen = 0
+//  - name: ten huong di (giong task 3)
+//  - h mode 1 = Manhattan, mode 2 = Chebyshev
+// ============================================================
+void Test_Task4() {
+    int floorPlan[100][100];
+    double weightMatrix[100][100];
+    PathNode* path = nullptr;
  
-//     cout << "========== TASK 4 TEST CASES ==========\n";
+    cout << "========== TASK 4 TEST CASES ==========\n";
  
-//     // ----------------------------------------------------------
-//     // TC1: start == goal
-//     // Grid 3x3 trong
-//     // Expected: 1 node, weightMatrix[0][0] = 0
-//     // ----------------------------------------------------------
-//     cout << "\n[TC1] start == goal\n";
-//     reset_int(floorPlan);
-//     reset_double(weightMatrix);
-//     path = findEvacuationPath(floorPlan, 3, 3, 0, 0, 0, 0, weightMatrix, 1);
-//     cout << "expected: 1 node, weightMatrix[0][0]=0\n";
-//     printPath(path);
-//     cout << "weightMatrix[0][0] = " << weightMatrix[0][0] << " (expected 0)\n";
+    // ----------------------------------------------------------
+    // TC1: start == goal
+    // Grid 3x3 trong
+    // Expected: 1 node, weightMatrix[0][0] = 0
+    // ----------------------------------------------------------
+    cout << "\n[TC1] start == goal\n";
+    reset_int(floorPlan);
+    reset_double(weightMatrix);
+    path = findEvacuationPath(floorPlan, 3, 3, 0, 0, 0, 0, weightMatrix, 1);
+    cout << "expected: 1 node, weightMatrix[0][0]=0\n";
+    printPath(path);
+    cout << "weightMatrix[0][0] = " << weightMatrix[0][0] << " (expected 0)\n";
  
-//     // ----------------------------------------------------------
-//     // TC2: 1 buoc Down
-//     // Grid 3x3 trong, start=(0,0), exit=(1,0)
-//     // Expected path: Down(g=1)
-//     // weightMatrix[0][0]=0, weightMatrix[1][0]=1
-//     // ----------------------------------------------------------
-//     cout << "\n[TC2] 1 buoc Down - kiem tra weightMatrix\n";
-//     reset_int(floorPlan);
-//     reset_double(weightMatrix);
-//     path = findEvacuationPath(floorPlan, 3, 3, 0, 0, 1, 0, weightMatrix, 1);
-//     cout << "expected: Down(g=1,h=0,f=1)\n";
-//     printPath(path);
-//     cout << "weightMatrix[0][0]=" << weightMatrix[0][0] << " (expected 0)\n";
-//     cout << "weightMatrix[1][0]=" << weightMatrix[1][0] << " (expected 1)\n";
+    // ----------------------------------------------------------
+    // TC2: 1 buoc Down
+    // Grid 3x3 trong, start=(0,0), exit=(1,0)
+    // Expected path: Down(g=1)
+    // weightMatrix[0][0]=0, weightMatrix[1][0]=1
+    // ----------------------------------------------------------
+    cout << "\n[TC2] 1 buoc Down - kiem tra weightMatrix\n";
+    reset_int(floorPlan);
+    reset_double(weightMatrix);
+    path = findEvacuationPath(floorPlan, 3, 3, 0, 0, 1, 0, weightMatrix, 1);
+    cout << "expected: Down(g=1,h=0,f=1)\n";
+    printPath(path);
+    cout << "weightMatrix[0][0]=" << weightMatrix[0][0] << " (expected 0)\n";
+    cout << "weightMatrix[1][0]=" << weightMatrix[1][0] << " (expected 1)\n";
  
-//     // ----------------------------------------------------------
-//     // TC3: duong di cheo
-//     // Grid 3x3 trong, start=(0,0), exit=(2,2)
-//     // Mode 2 Chebyshev -> 2 buoc Down-Right, g=3.0
-//     // weightMatrix[0][0]=0, [1][1]=1.5, [2][2]=3.0
-//     // ----------------------------------------------------------
-//     cout << "\n[TC3] duong cheo - kiem tra weightMatrix - mode 2\n";
-//     reset_int(floorPlan);
-//     reset_double(weightMatrix);
-//     path = findEvacuationPath(floorPlan, 3, 3, 0, 0, 2, 2, weightMatrix, 2);
-//     cout << "expected: Down-Right(g=1.5), Down-Right(g=3.0)\n";
-//     printPath(path);
-//     cout << "weightMatrix[0][0]=" << weightMatrix[0][0] << " (expected 0)\n";
-//     cout << "weightMatrix[1][1]=" << weightMatrix[1][1] << " (expected 1.5)\n";
-//     cout << "weightMatrix[2][2]=" << weightMatrix[2][2] << " (expected 3.0)\n";
+    // ----------------------------------------------------------
+    // TC3: duong di cheo
+    // Grid 3x3 trong, start=(0,0), exit=(2,2)
+    // Mode 2 Chebyshev -> 2 buoc Down-Right, g=3.0
+    // weightMatrix[0][0]=0, [1][1]=1.5, [2][2]=3.0
+    // ----------------------------------------------------------
+    cout << "\n[TC3] duong cheo - kiem tra weightMatrix - mode 2\n";
+    reset_int(floorPlan);
+    reset_double(weightMatrix);
+    path = findEvacuationPath(floorPlan, 3, 3, 0, 0, 2, 2, weightMatrix, 2);
+    cout << "expected: Down-Right(g=1.5), Down-Right(g=3.0)\n";
+    printPath(path);
+    cout << "weightMatrix[0][0]=" << weightMatrix[0][0] << " (expected 0)\n";
+    cout << "weightMatrix[1][1]=" << weightMatrix[1][1] << " (expected 1.5)\n";
+    cout << "weightMatrix[2][2]=" << weightMatrix[2][2] << " (expected 3.0)\n";
  
-//     // ----------------------------------------------------------
-//     // TC4: co tuong, kiem tra weightMatrix chi ghi path thuc su
-//     // Grid 4x4:
-//     //   0 0 0 0
-//     //   0 1 0 0
-//     //   0 0 0 0
-//     //   0 0 0 0
-//     // start=(0,0), exit=(2,2)
-//     // Tuong tai (1,1) -> khong the di cheo thang
-//     // Mot duong: (0,0)->Down(1,0)->Down-Right(2,1) bi chan boi(1,1)? Khong, (1,1)=tuong nhung (2,1) ok
-//     //   (0,0)->Down(1,0)->Down-Right(2,1)->Right(2,2): g=1+1.5+1=3.5
-//     // Duong khac: (0,0)->Right(0,1)->Down-Right(1,2)->Down-Left(2,1)->Right(2,2): g=1+1.5+1.5+1=5
-//     // Duong khac: (0,0)->Right(0,1)->Right(0,2)->Down(1,2)->Down(2,2): g=1+1+1+1=4
-//     // Duong toi uu: Down,Down-Right,Right (g=3.5)
-//     // weightMatrix: [0][0]=0,[1][0]=1,[2][1]=2.5,[2][2]=3.5, cac o khac=0
-//     // ----------------------------------------------------------
-//     cout << "\n[TC4] co tuong - kiem tra weightMatrix chi ghi path - mode 1\n";
-//     reset_int(floorPlan);
-//     reset_double(weightMatrix);
-//     floorPlan[1][1] = 1;
-//     path = findEvacuationPath(floorPlan, 4, 4, 0, 0, 2, 2, weightMatrix, 1);
-//     cout << "expected path: Down(g=1), Down-Right(g=2.5), Right(g=3.5)\n";
-//     printPath(path);
-//     cout << "weightMatrix[0][0]=" << weightMatrix[0][0] << " (expected 0)\n";
-//     cout << "weightMatrix[1][0]=" << weightMatrix[1][0] << " (expected 1)\n";
-//     cout << "weightMatrix[2][1]=" << weightMatrix[2][1] << " (expected 2.5)\n";
-//     cout << "weightMatrix[2][2]=" << weightMatrix[2][2] << " (expected 3.5)\n";
-//     cout << "weightMatrix[0][1]=" << weightMatrix[0][1] << " (expected 0, khong trong path)\n";
+    // ----------------------------------------------------------
+    // TC4: co tuong, kiem tra weightMatrix chi ghi path thuc su
+    // Grid 4x4:
+    //   0 0 0 0
+    //   0 1 0 0
+    //   0 0 0 0
+    //   0 0 0 0
+    // start=(0,0), exit=(2,2)
+    // Tuong tai (1,1) -> khong the di cheo thang
+    // Mot duong: (0,0)->Down(1,0)->Down-Right(2,1) bi chan boi(1,1)? Khong, (1,1)=tuong nhung (2,1) ok
+    //   (0,0)->Down(1,0)->Down-Right(2,1)->Right(2,2): g=1+1.5+1=3.5
+    // Duong khac: (0,0)->Right(0,1)->Down-Right(1,2)->Down-Left(2,1)->Right(2,2): g=1+1.5+1.5+1=5
+    // Duong khac: (0,0)->Right(0,1)->Right(0,2)->Down(1,2)->Down(2,2): g=1+1+1+1=4
+    // Duong toi uu: Down,Down-Right,Right (g=3.5)
+    // weightMatrix: [0][0]=0,[1][0]=1,[2][1]=2.5,[2][2]=3.5, cac o khac=0
+    // ----------------------------------------------------------
+    cout << "\n[TC4] co tuong - kiem tra weightMatrix chi ghi path - mode 1\n";
+    reset_int(floorPlan);
+    reset_double(weightMatrix);
+    floorPlan[1][1] = 1;
+    path = findEvacuationPath(floorPlan, 4, 4, 0, 0, 2, 2, weightMatrix, 1);
+    cout << "expected path: Down(g=1), Down-Right(g=2.5), Right(g=3.5)\n";
+    printPath(path);
+    cout << "weightMatrix[0][0]=" << weightMatrix[0][0] << " (expected 0)\n";
+    cout << "weightMatrix[1][0]=" << weightMatrix[1][0] << " (expected 1)\n";
+    cout << "weightMatrix[2][1]=" << weightMatrix[2][1] << " (expected 2.5)\n";
+    cout << "weightMatrix[2][2]=" << weightMatrix[2][2] << " (expected 3.5)\n";
+    cout << "weightMatrix[0][1]=" << weightMatrix[0][1] << " (expected 0, khong trong path)\n";
  
-//     // ----------------------------------------------------------
-//     // TC5: khong co duong thoat (exit bi chan)
-//     // Grid 3x3, exit=(1,1) bi bao vay 4 huong chinh
-//     // Expected: nullptr, weightMatrix giu nguyen = 0
-//     // ----------------------------------------------------------
-//     cout << "\n[TC5] khong co duong thoat - weightMatrix giu nguyen\n";
-//     reset_int(floorPlan);
-//     reset_double(weightMatrix);
-//     floorPlan[0][1] = 1;
-//     floorPlan[1][0] = 1;
-//     floorPlan[1][2] = 1;
-//     floorPlan[2][1] = 1;
-//     path = findEvacuationPath(floorPlan, 3, 3, 0, 0, 1, 1, weightMatrix, 1);
-//     cout << "expected: nullptr\n";
-//     printPath(path);
-//     cout << "weightMatrix[0][0]=" << weightMatrix[0][0] << " (expected 0)\n";
+    // ----------------------------------------------------------
+    // TC5: khong co duong thoat (exit bi chan)
+    // Grid 3x3, exit=(2,0) bi bao vay 4 huong chinh
+    // Expected: nullptr, weightMatrix giu nguyen = 0
+    // ----------------------------------------------------------
+    cout << "\n[TC5] khong co duong thoat - weightMatrix giu nguyen\n";
+    reset_int(floorPlan);
+    reset_double(weightMatrix);
+    floorPlan[0][1] = 1;
+    floorPlan[1][0] = 1;
+    floorPlan[1][2] = 1;
+    floorPlan[2][1] = 1;
+    floorPlan[1][1] = 1;
+    path = findEvacuationPath(floorPlan, 3, 3, 0, 0, 2, 0, weightMatrix, 1);
+    cout << "expected: nullptr\n";
+    printPath(path);
+    cout << "weightMatrix[0][0]=" << weightMatrix[0][0] << " (expected 0)\n";
  
-//     // ----------------------------------------------------------
-//     // TC6: so sanh mode 1 vs mode 2, kiem tra ca path lan weightMatrix
-//     // Grid 5x5 trong, start=(0,0), exit=(0,4)
-//     // Mode 1 Manhattan: h(0,0)=4, huong ngang -> 4 buoc Right, g=4
-//     // Mode 2 Chebyshev: h(0,0)=4, cung 4 buoc Right, g=4
-//     // (Truong hop nay 2 mode cho ket qua giong nhau)
-//     // weightMatrix: [0][0]=0,[0][1]=1,[0][2]=2,[0][3]=3,[0][4]=4
-//     // ----------------------------------------------------------
-//     cout << "\n[TC6] di thang ngang - ca 2 mode, kiem tra weightMatrix day du\n";
-//     reset_int(floorPlan);
+    // ----------------------------------------------------------
+    // TC6: so sanh mode 1 vs mode 2, kiem tra ca path lan weightMatrix
+    // Grid 5x5 trong, start=(0,0), exit=(0,4)
+    // Mode 1 Manhattan: h(0,0)=4, huong ngang -> 4 buoc Right, g=4
+    // Mode 2 Chebyshev: h(0,0)=4, cung 4 buoc Right, g=4
+    // (Truong hop nay 2 mode cho ket qua giong nhau)
+    // weightMatrix: [0][0]=0,[0][1]=1,[0][2]=2,[0][3]=3,[0][4]=4
+    // ----------------------------------------------------------
+    cout << "\n[TC6] di thang ngang - ca 2 mode, kiem tra weightMatrix day du\n";
+    reset_int(floorPlan);
  
-//     cout << "--- mode 1 ---\n";
-//     reset_double(weightMatrix);
-//     path = findEvacuationPath(floorPlan, 5, 5, 0, 0, 0, 4, weightMatrix, 1);
-//     cout << "expected: 4x Right (g=1,2,3,4)\n";
-//     printPath(path);
-//     for (int c = 0; c <= 4; ++c)
-//         cout << "weightMatrix[0][" << c << "]=" << weightMatrix[0][c]
-//              << " (expected " << c << ")\n";
+    cout << "--- mode 1 ---\n";
+    reset_double(weightMatrix);
+    path = findEvacuationPath(floorPlan, 5, 5, 0, 0, 0, 4, weightMatrix, 1);
+    cout << "expected: 4x Right (g=1,2,3,4)\n";
+    printPath(path);
+    for (int c = 0; c <= 4; ++c)
+        cout << "weightMatrix[0][" << c << "]=" << weightMatrix[0][c]
+             << " (expected " << c << ")\n";
  
-//     cout << "--- mode 2 ---\n";
-//     reset_double(weightMatrix);
-//     path = findEvacuationPath(floorPlan, 5, 5, 0, 0, 0, 4, weightMatrix, 2);
-//     cout << "expected: 4x Right (g=1,2,3,4)\n";
-//     printPath(path);
-//     for (int c = 0; c <= 4; ++c)
-//         cout << "weightMatrix[0][" << c << "]=" << weightMatrix[0][c]
-//              << " (expected " << c << ")\n";
+    cout << "--- mode 2 ---\n";
+    reset_double(weightMatrix);
+    path = findEvacuationPath(floorPlan, 5, 5, 0, 0, 0, 4, weightMatrix, 2);
+    cout << "expected: 4x Right (g=1,2,3,4)\n";
+    printPath(path);
+    for (int c = 0; c <= 4; ++c)
+        cout << "weightMatrix[0][" << c << "]=" << weightMatrix[0][c]
+             << " (expected " << c << ")\n";
  
-//     cout << "\n===============================================\n";
-// };
+    cout << "\n===============================================\n";
+};
 int main() {
     //Test_Task1();
     //Test_Task2();
-    Test_Task3();
-    // Test_Task4();
+    // Test_Task3();
+    Test_Task4();
     return 0;
 };
 

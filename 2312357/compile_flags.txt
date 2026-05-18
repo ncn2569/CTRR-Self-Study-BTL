@@ -1,0 +1,11 @@
+-xc++
+-std=c++17
+-I.
+--target=x86_64-pc-cygwin
+-D__CYGWIN__
+-isystem
+D:\cygwin\lib\gcc\x86_64-pc-cygwin\11\include\c++
+-isystem
+D:\cygwin\lib\gcc\x86_64-pc-cygwin\11\include\c++\x86_64-pc-cygwin
+-isystem
+D:\cygwin\usr\include
