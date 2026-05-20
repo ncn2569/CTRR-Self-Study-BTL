@@ -239,7 +239,7 @@ PathNode *findWarehousePath(int warehouse[100][100], int m, int n, int startX,
         if (warehouse[nx][ny] == 0) {
           int new_id = nx * 100 + ny;
           double g_new = g[temp.id] + m_cost[i];
-          if (g_new < g[new_id]) {
+          if (!visited[new_id] && g_new < g[new_id]) {
             double h_new = heuristic_task_3_4(nx, goalX, ny, goalY, mode);
             ncn.push(g_new + h_new, h_new, new_id);
             parents[new_id] = temp.id;
@@ -325,7 +325,7 @@ PathNode *findEvacuationPath(int floorPlan[100][100], int m, int n, int startX,
             if (floorPlan[nx][ny] == 0) {
             int new_id = nx * 100 + ny;
             double g_new = g[temp.id] + m_cost[i];
-            if (g_new < g[new_id]) {
+            if (!visited[new_id] && g_new < g[new_id]) {
                 double h_new = heuristic_task_3_4(nx, exitX, ny, exitY, mode);
                 ncn.push(g_new + h_new, h_new, new_id);
                 parents[new_id] = temp.id;

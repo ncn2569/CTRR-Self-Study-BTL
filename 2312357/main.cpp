@@ -554,8 +554,8 @@ void Test_Task4() {
 int main() {
     //Test_Task1();
     //Test_Task2();
-    // Test_Task3();
-    Test_Task4();
+    Test_Task3();
+    // Test_Task4();
     return 0;
 };
 
