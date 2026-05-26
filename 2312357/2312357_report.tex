@@ -1,0 +1,945 @@
+\documentclass[13pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage[vietnamese,english]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\usepackage{tikz}
+
+\geometry{top=3cm, bottom=3cm, left=3.5cm, right=2.5cm}
+
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=black}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    frame=single,
+    breaklines=true,
+    numbers=left,
+    numberstyle=\tiny,
+    tabsize=4,
+    showstringspaces=false,
+    language=C++
+}
+
+\begin{document}
+
+%----------------------------------------------
+% TRANG BÌA
+%----------------------------------------------
+\begin{titlepage}
+\begin{tikzpicture}[remember picture,overlay]
+    \draw[line width=3pt] 
+        ([xshift=1.5cm,yshift=-1.5cm]current page.north west) 
+        rectangle 
+        ([xshift=-1.5cm,yshift=1.5cm]current page.south east);
+    \draw[line width=1pt] 
+        ([xshift=1.6cm,yshift=-1.6cm]current page.north west) 
+        rectangle 
+        ([xshift=-1.6cm,yshift=1.6cm]current page.south east);
+\end{tikzpicture}
+    \centering
+
+    {\large \textbf{ĐẠI HỌC QUỐC GIA, THÀNH PHỐ HỒ CHÍ MINH}}\\[4pt]
+    {\large\textbf{TRƯỜNG ĐẠI HỌC BÁCH KHOA}}\\[4pt]
+    {\large \textbf{KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH}}
+
+    \vspace{2cm}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=4cm]{bachkhoa_logo.png}
+    \end{figure}
+
+    \vspace{2cm}
+
+    {\Large\textbf{Cấu Trúc Rời Rạc 252}}\\[12pt]
+    {\huge\textbf{Báo cáo Bài Tập Lớn}}
+
+    \vspace{3cm}
+
+    \begin{center}
+    \large
+    \textbf{Giảng viên lý thuyết:} Trần Hồng Tài\\[6pt]
+    \textbf{SV thực hiện:} Nguyễn Cảnh Nguyên -- 2312357
+\end{center}
+
+    \vfill
+    {\normalsize TP Hồ Chí Minh, Tháng 5 Năm 2026}
+\end{titlepage}
+
+%----------------------------------------------
+% MỤC LỤC
+%----------------------------------------------
+\tableofcontents
+\newpage
+
+%----------------------------------------------
+% TỔNG QUAN THUẬT TOÁN A*
+%----------------------------------------------
+\section*{Tổng quan thuật toán A*}
+\addcontentsline{toc}{section}{Tổng quan thuật toán A*}
+
+Thuật toán A* (A-star) là một thuật toán tìm đường đi ngắn nhất trên đồ thị có trọng số hoặc bản đồ dạng lưới.A* kết hợp sức mạnh của thuật toán Dijkstra và Greedy Best-First Search . Tại mỗi bước, A* chọn node có giá trị $f(n)$ nhỏ nhất để mở rộng:
+
+\[  
+    f(n) = g(n) + h(n)
+\]
+
+Trong đó:
+\begin{itemize}
+    \item $g(n)$: chi phí thực tế từ Start đến node $n$
+    \item $h(n)$: ước lượng (heuristic) chi phí từ $n$ đến Goal
+    \item $f(n)$: tổng chi phí ước tính của đường đi qua $n$
+\end{itemize}
+
+\textbf{Điều kiện để A* tìm ra đường tối ưu:} Hàm $h(n)$ phải là \textit{admissible}, tức là không bao giờ đánh giá cao hơn chi phí thực tế ($h(n) \leq h^*(n)$).
+
+\textbf{Các cấu trúc dữ liệu chính:}
+\begin{itemize}
+    \item \texttt{MinHeap}: hàng đợi ưu tiên lưu các node theo $f$ tăng dần, tie-break theo $h$ nhỏ hơn trước.(Data Structure này là tự hiện thực thêm với <vector> không import thư viện ngoài)
+    \item \texttt{visited[]}: mảng đánh dấu Closed Set
+    \item \texttt{parents[]}: mảng lưu node cha để truy vết đường đi ngược từ Goal về Start
+    \item \texttt{PathNode}: linked list chứa kết quả, mỗi node lưu \texttt{name}, $f$, $g$, $h$
+\end{itemize}
+
+\subsection*{Hiện thực helper functions}
+Assignment chỉ yêu cầu hiện thực các hàm \texttt{findSocialPath}, \texttt{findDronePath}, \texttt{findWarehousePath}, \texttt{findEvacuationPath} và cấu trúc \texttt{PathNode} (đã cho sẵn tên field). Hiện thực thêm helper để tiện cho việc code gồm:
+\begin{itemize}
+    \item \textbf{Constructor cho PathNode} (\texttt{PathNode.h}): Assignment cho sẵn struct với 4 field (\texttt{name}, \texttt{f}, \texttt{g}, \texttt{h}, \texttt{next}) nhưng không có constructor. Em thêm constructor ở PathNode:
+\begin{lstlisting}
+struct PathNode {
+    string name;
+    double f;
+    double g;
+    double h;
+    PathNode* next;
+    //bonus
+    PathNode(string name, double f, double g, double h)
+    : name(name), f(f), g(g), h(h), next(nullptr) {}
+};
+\end{lstlisting}
+    \item \textbf{Struct MinHeap} (\texttt{Algo.h}): Assignment không cho sử dụng thư viện ngoài nên em tự hiện thực min-heap với các thao tác \texttt{push()} và \texttt{pop()}, xét dựa trên $f$ và $h$.
+\begin{lstlisting}
+struct HeapNode {
+    double f; 
+    int id; 
+    double h;
+};
+struct MinHeap {
+    vector<HeapNode> data;
+    bool empty() const { return data.empty(); }
+    void push(double f, double h, int id) {
+        data.push_back({f, id, h});
+        int i = data.size() - 1;
+        while (i > 0) { // heapify-up
+            int father = (i - 1) / 2;
+            if (data[father].f < data[i].f || 
+               (data[father].f == data[i].f && data[father].h <= data[i].h)) break;
+            swap(data[father], data[i]);
+            i = father;
+        }
+    }
+    HeapNode pop() {
+        HeapNode ncn = data[0];
+        data[0] = data.back(); data.pop_back();
+        int i = 0, size = data.size();
+        while (true) { // heapify-down
+            int l = 2*i + 1, r = 2*i + 2, temp = i;
+            if (l < size && (data[l].f < data[temp].f || 
+               (data[l].f == data[temp].f && data[l].h <= data[temp].h))) temp = l;
+            if (r < size && (data[r].f < data[temp].f || 
+               (data[r].f == data[temp].f && data[r].h <= data[temp].h))) temp = r;
+            if (temp == i) break;
+            swap(data[temp], data[i]);
+            i = temp;
+        }
+        return ncn;
+    }
+};
+\end{lstlisting}
+    \item \textbf{Hàm build\_linked\_list} (\texttt{Algo.cpp}): Hàm helper dùng chung cho cả 4 task, nhận vào vector index của đường đi và xây dựng linked list \texttt{PathNode} từ đầu đến cuối.
+\begin{lstlisting}
+PathNode* build_linked_list(const vector<int>& path, const double g[], 
+                            const double h[], const string names[]) {
+    PathNode* head = nullptr;
+    PathNode* tail = nullptr;
+    for (int idx : path) {
+        PathNode* node = new PathNode(names[idx], g[idx] + h[idx], g[idx], h[idx]);
+        if (!head) head = tail = node;
+        else { tail->next = node; tail = node; }
+    }
+    return head;
+}
+\end{lstlisting}
+\end{itemize}
+\newpage
+
+%==============================================
+% TASK 1
+%==============================================
+\section{Task 1 -- Degrees of Separation in a Social Network}
+
+\subsection{Mô tả bài toán}
+
+Cho một đồ thị mạng xã hội được biểu diễn bởi ma trận kề (\texttt{adjMatrix[i][j] = 1} nghĩa là có kết nối giữa người $i$ và người $j$). Triển khai thuật toán A* để tìm đường đi có ít kết nối nhất từ \texttt{startPerson} đến \texttt{goalPerson}.
+
+\textbf{Input:} Ma trận kề, người bắt đầu, người đích.
+
+\textbf{Output:} Một linked list \texttt{PathNode} chứa đường đi từ start đến goal, mỗi node lưu tên người (index), $f(n)$, $g(n)$, $h(n)$.
+
+\textbf{Hàm chi phí:}
+\begin{itemize}
+    \item $g(n)$: số kết nối đã đi từ start đến node hiện tại
+    \item $h(n)$: ước lượng số kết nối tối thiểu còn lại để đến goal
+    \item $f(n) = g(n) + h(n)$
+\end{itemize}
+
+\subsection{Heuristic: BFS ngược từ Goal}
+
+Vì tất cả cạnh có trọng số bằng 1, ta có thể tính chính xác khoảng cách ngắn nhất từ mọi node đến Goal bằng BFS ngược:
+
+\begin{enumerate}
+    \item Khởi tạo $h(i) = +\infty$ cho tất cả node, đặt $h(\text{goal}) = 0$.
+    \item Đưa goal vào queue.
+    \item Với mỗi node $u$ lấy ra từ queue, duyệt tất cả $i$ có cạnh $i \to u$.
+    \item Nếu $h(u)+1 < h(i)$, cập nhật $h(i)$ và đưa $i$ vào queue.
+\end{enumerate}
+
+Vì $h(n)$ tính chính xác khoảng cách thực tế, nó luôn thỏa mãn admissible. A* với heuristic này sẽ chỉ mở đúng các node trên đường đi ngắn nhất.
+
+\begin{lstlisting}[caption={Hàm heuristic\_task\_1 trong Algo.cpp}]
+void heuristic_task_1(int goal, double matrix[100][100], double h[100]) {
+    vector<int> q;
+    q.push_back(goal);
+    h[goal] = 0.0;
+    int head = 0;
+    while (head < q.size()) {
+        int u = q[head];
+        for (int i = 0; i < 100; i++) {
+            if (matrix[i][u] == 1.0) { // co canh i -> u
+                if (h[u] + 1 < h[i]) {
+                    h[i] = h[u] + 1;
+                    q.push_back(i);
+                }
+            }
+        }
+        head++;
+    }
+}
+\end{lstlisting}
+
+\subsection{Manual Run}
+
+\textbf{Đồ thị 5 node (vô hướng):}
+
+\[
+\text{adjMatrix} =
+\begin{pmatrix}
+0 & 1 & 0 & 1 & 0 \\
+1 & 0 & 1 & 0 & 0 \\
+0 & 1 & 0 & 1 & 0 \\
+1 & 0 & 1 & 0 & 1 \\
+0 & 0 & 0 & 1 & 0 \\
+\end{pmatrix}
+\]
+
+\textbf{Start = 0, Goal = 4.}
+
+\textbf{Bước 1: Tính $h(n)$ bằng BFS ngược từ goal = 4.}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccll}
+\toprule
+\textbf{BFS step} & \textbf{Node} & \textbf{Cập nhật} & \textbf{Mảng h} \\
+\midrule
+Init  & --  & $h(4) = 0$                 & $[\infty,\infty,\infty,\infty,0]$ \\
+1     & 4   & $h(3) = 1$                 & $[\infty,\infty,\infty,1,0]$ \\
+2     & 3   & $h(0) = 2$, $h(2) = 2$     & $[2,\infty,2,1,0]$ \\
+3     & 0   & $h(1) = 3$                 & $[2,3,2,1,0]$ \\
+4     & 2   & $h(1) \le 3$, bỏ qua       & -- \\
+\bottomrule
+\end{tabular}
+\caption{BFS ngược tính h(n), Goal = 4}
+\end{table}
+
+\textbf{Bước 2: Chạy A* từ Start = 0 đến Goal = 4.}
+
+Khởi tạo: $g(0)=0$, $h(0)=2$, $f(0)=2$. Push node 0 vào heap.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{cccccp{6cm}}
+\toprule
+\textbf{Bước} & \textbf{Pop} & $f$ & $g$ & $h$ & \textbf{Hành động} \\
+\midrule
+1 & 0 & 2 & 0 & 2 & Push node 1 ($f=4$), node 3 ($f=2$) \\
+2 & 3 & 2 & 1 & 1 & Push node 2 ($f=4$), node 4 ($f=2$) \\
+3 & 4 & 2 & 2 & 0 & \textbf{Goal!} Dừng. \\
+\bottomrule
+\end{tabular}
+\caption{A* trace Task 1, Start=0, Goal=4}
+\end{table}
+
+Truy vết: $4 \leftarrow 3 \leftarrow 0$. Đường đi: $0 \to 3 \to 4$.
+
+\textbf{Output:}
+\begin{lstlisting}[language={}, numbers=none]
+Node: 0 | f: 2 | g: 0 | h: 2
+Node: 3 | f: 2 | g: 1 | h: 1
+Node: 4 | f: 2 | g: 2 | h: 0
+\end{lstlisting}
+
+\subsection{Code hiện thực hàm chính}
+\begin{lstlisting}[caption={Hàm findSocialPath trong Algo.cpp}]
+PathNode *findSocialPath(double adjMatrix[100][100], int startPerson,
+                         int goalPerson) {
+  double g[100], h[100];
+  int parent[100];
+  string names[100];
+  bool visited[100];
+  vector<int> path;
+  MinHeap ncn;
+  if (startPerson == goalPerson) {
+    PathNode *head = nullptr;
+    string name = to_string(startPerson);
+    head = new PathNode(name, 0, 0, 0);
+    return head;
+  };
+
+  for (int i = 0; i < 100; ++i) {
+    g[i] = MAX;
+    h[i] = MAX;
+    names[i] = to_string(i);
+    visited[i] = false;
+    parent[i] = -1;
+  };
+  heuristic_task_1(goalPerson, adjMatrix, h);
+
+  g[startPerson] = 0;
+  ncn.push(g[startPerson] + h[startPerson], h[startPerson], startPerson);
+  while (!ncn.empty()) {
+    HeapNode temp = ncn.pop();
+    if (visited[temp.id] == true)
+      continue;
+    if (temp.id == goalPerson) {
+      break;
+    };
+
+    visited[temp.id] = true;
+
+    for (int i = 0; i < 100; ++i) {
+      if (adjMatrix[temp.id][i] == 1.0) {
+        if (g[temp.id] + 1 < g[i]) {
+          g[i] = g[temp.id] + 1;
+          parent[i] = temp.id;
+          ncn.push(g[i] + h[i], h[i], i);
+        };
+      };
+    };
+  };
+
+  if (parent[goalPerson] == -1)
+    return nullptr;
+  int i = goalPerson;
+  while (parent[i] != -1) {
+    path.push_back(parent[i]);
+    i = parent[i];
+  };
+  reverse(path.begin(), path.end());
+  path.push_back(goalPerson);
+  return build_linked_list(path, g, h, names);
+};
+\end{lstlisting}
+
+\newpage
+
+%==============================================
+% TASK 2
+%==============================================
+\section{Task 2 -- Drone Delivery in 2D Space with Three Heuristics}
+
+\subsection{Mô tả bài toán}
+
+Cho một đồ thị có trọng số biểu diễn không gian giao hàng 2D. Mỗi node là một điểm giao hàng với tọa độ \texttt{coords[i] = \{x, y\}}. Ma trận kề \texttt{adjMatrix[i][j]} lưu khoảng cách bay giữa hai điểm (0 = không có đường bay trực tiếp). Tìm đường bay có tổng chi phí nhỏ nhất từ \texttt{startPoint} đến \texttt{goalPoint}.
+
+\textbf{Input:} Ma trận kề có trọng số, mảng tọa độ 2D, điểm xuất phát, điểm đích, mode heuristic.
+
+\textbf{Output:} Linked list \texttt{PathNode} chứa đường đi, mỗi node lưu tọa độ dạng \texttt{"(x,y)"}, $f(n)$, $g(n)$, $h(n)$.
+
+\textbf{Hàm chi phí:}
+\begin{itemize}
+    \item $g(n)$: tổng trọng số các cạnh đã đi từ điểm xuất phát
+    \item $h(n)$: khoảng cách ước lượng từ node hiện tại đến đích theo heuristic được chọn
+    \item $f(n) = g(n) + h(n)$
+\end{itemize}
+
+
+\subsection{Ba loại Heuristic}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{clll}
+\toprule
+\textbf{Mode} & \textbf{Tên} & \textbf{Công thức} & \textbf{Ứng dụng} \\
+\midrule
+1 & Manhattan  & $h = |x_1-x_2| + |y_1-y_2|$ & Di chuyển theo lưới \\
+2 & Euclidean  & $h = \sqrt{(x_1-x_2)^2+(y_1-y_2)^2}$ & Di chuyển tự do \\
+3 & Chebyshev  & $h = \max(|x_1-x_2|,|y_1-y_2|)$ & Di chuyển 8 hướng \\
+\bottomrule
+\end{tabular}
+\caption{Ba heuristic mode cho Task 2}
+\end{table}
+
+Quan hệ: Chebyshev $\leq$ Euclidean $\leq$ Manhattan với mọi cặp điểm.
+
+\subsection{So sánh ba loại Heuristic qua các ví dụ}
+
+Mỗi heuristic sẽ phát huy thế mạnh (ước lượng sát nhất khoảng cách thực tế, từ đó mở rộng ít node nhất) tùy thuộc vào cấu trúc kết nối, hướng di chuyển cho phép và trọng số cạnh của đồ thị giao hàng.
+
+\textbf{Ví dụ 1: Lưới đường phố (Manhattan)}
+
+Các điểm giao hàng nằm trên một lưới vuông, drone chỉ được phép bay theo các trục ngang/dọc. Khoảng cách giữa các điểm kề nhau là 1.
+\begin{itemize}
+    \item \textbf{Nodes:} $A(0,0)$ [Start], $B(1,0)$, $C(0,1)$, $D(1,1)$ [Goal].
+    \item \textbf{Cạnh (cost=1):} $A-B$, $A-C$, $B-D$, $C-D$ (không có đường chéo).
+\end{itemize}
+
+Chi phí thực tế của đường đi ngắn nhất $A \to D$ là 2.
+\begin{itemize}
+    \item $h_{\text{Manhattan}}(A) = |1-0| + |1-0| = 2$.
+    \item $h_{\text{Euclidean}}(A) = \sqrt{1^2+1^2} \approx 1.41$.
+    \item $h_{\text{Chebyshev}}(A) = \max(1, 1) = 1$.
+\end{itemize}
+\textbf{Nhận xét:} Manhattan ước lượng hoàn hảo khoảng cách thực tế ($h=h^*=2$), giúp A* chỉ tập trung mở rộng các node nằm chính xác trên đường đi ngắn nhất mà không bị phân tán. Euclidean và Chebyshev đánh giá thấp hơn chi phí thực (underestimate), khiến A* phải xét nhiều node nhánh dư thừa hơn ở các đồ thị lớn. Do đó, Manhattan có lợi thế tuyệt đối trên lưới di chuyển 4 hướng.
+
+\textbf{Ví dụ 2: Lưới 8 hướng có chi phí đồng đều (Chebyshev)}
+
+Drone có thể bay theo 8 hướng (thêm 4 hướng chéo), và chi phí bay chéo bằng chi phí bay thẳng (cost=1).
+\begin{itemize}
+    \item \textbf{Nodes:} $A(0,0)$ [Start], $B(1,1)$ [Goal].
+    \item \textbf{Cạnh (cost=1):} $A \to B$ (bay chéo trực tiếp).
+\end{itemize}
+
+Chi phí thực tế $A \to B$ là 1.
+\begin{itemize}
+    \item $h_{\text{Chebyshev}}(A) = \max(1, 1) = 1$.
+    \item $h_{\text{Euclidean}}(A) = \sqrt{1^2+1^2} \approx 1.41$.
+    \item $h_{\text{Manhattan}}(A) = 1 + 1 = 2$.
+\end{itemize}
+\textbf{Nhận xét:} Chebyshev ước lượng \textbf{hoàn hảo} ($h=h^*=1$). Ngược lại, Manhattan và Euclidean ước lượng cao hơn chi phí thực tế (overestimate). Khi $h(n) > h^*(n)$, heuristic trở thành inadmissible và thuật toán A* không còn đảm bảo tìm được đường đi tối ưu. Do đó, Chebyshev là lựa chọn tối ưu và an toàn nhất cho di chuyển 8 hướng chi phí đều(= 1).
+
+\textbf{Ví dụ 3: Không gian bay tự do (Euclidean)}
+
+Drone bay tự do theo đường chim bay giữa các điểm bất kỳ. Trọng số cạnh chính là khoảng cách đường thẳng và chi phí đường chéo là lớn hơn đường thẳng (= 1.5) (khoảng cách Euclidean).
+\begin{itemize}
+    \item \textbf{Nodes:} $A(0,0)$ [Start], $B(3,4)$ [Goal], $C(3,0)$.
+    \item \textbf{Cạnh:} $A \to B$ (cost=5), $A \to C$ (cost=3), $C \to B$ (cost=4).
+\end{itemize}
+
+Chi phí thực $A \to B$ (bay trực tiếp) là 5.
+\begin{itemize}
+    \item $h_{\text{Euclidean}}(A) = \sqrt{3^2+4^2} = 5$.
+    \item $h_{\text{Manhattan}}(A) = 3 + 4 = 7$.
+    \item $h_{\text{Chebyshev}}(A) = \max(3, 4) = 4$.
+\end{itemize}
+\textbf{Nhận xét:} Euclidean phản ánh chính xác tuyệt đối bản chất vật lý của đồ thị không gian. Manhattan đánh giá quá cao ($7 > 5$) nên inadmissible, có thể khiến A* chọn nhầm đường vòng nếu có nhiều vật cản. Chebyshev đánh giá quá thấp ($4 < 5$) nên dù admissible nhưng tính định hướng về đích kém hơn Euclidean (mở rộng nhiều node hơn mức cần thiết). Euclidean là lựa chọn chuẩn xác nhất cho không gian 2D bay tự do.
+
+\subsection{Code hiện thực}
+\begin{lstlisting}[caption={Hàm heuristic\_task\_2 và findDronePath}]
+double heuristic_task_2(int x1, int x2, int y1, int y2, int mode) {
+  if (mode == 1) {
+    return abs(x1 - x2) + abs(y1 - y2);
+  };
+  if (mode == 2) {
+    return sqrt(pow((x1 - x2), 2) + pow((y1 - y2), 2));
+  };
+  if (mode == 3) {
+    return max(abs(x1 - x2), abs(y1 - y2));
+  };
+  return 0.0;
+};
+
+PathNode *findDronePath(double adjMatrix[100][100], int coords[100][2],
+                        int startPoint, int goalPoint, int mode) {
+  double g[100], h[100];
+  bool visited[100];
+  MinHeap ncn;
+  string names[100];
+  int parents[100];
+  vector<int> path;
+  if (startPoint == goalPoint) {
+    PathNode *head = nullptr;
+    string name = "(" + to_string(coords[startPoint][0]) + "," +
+                  to_string(coords[startPoint][1]) + ")";
+    head = new PathNode(name, 0, 0, 0);
+    return head;
+  }
+  for (int i = 0; i < 100; i++) {
+    g[i] = MAX;
+    h[i] = MAX;
+    visited[i] = false;
+    parents[i] = -1;
+    names[i] =
+        "(" + to_string(coords[i][0]) + "," + to_string(coords[i][1]) + ")";
+  };
+  g[startPoint] = 0;
+  h[startPoint] =
+      heuristic_task_2(coords[startPoint][0], coords[goalPoint][0],
+                       coords[startPoint][1], coords[goalPoint][1], mode);
+
+  ncn.push(g[startPoint] + h[startPoint], h[startPoint],
+           startPoint);
+  while (!ncn.empty()) {
+    HeapNode temp = ncn.pop();
+    if (temp.id == goalPoint)
+      break;
+    if (visited[temp.id] == true)
+      continue;
+    visited[temp.id] = true;
+    for (int i = 0; i < 100; ++i) {
+      if (adjMatrix[temp.id][i] != 0.0) {
+        if (g[temp.id] + adjMatrix[temp.id][i] < g[i]) {
+          g[i] = g[temp.id] + adjMatrix[temp.id][i];
+          parents[i] = temp.id;
+          h[i] = heuristic_task_2(coords[i][0], coords[goalPoint][0],
+                                  coords[i][1], coords[goalPoint][1], mode);
+          ncn.push(g[i] + h[i], h[i], i);
+        };
+      };
+    };
+  };
+  if (parents[goalPoint] == -1)
+    return nullptr;
+  int i = goalPoint;
+
+  while (parents[i] != -1) {
+    path.push_back(parents[i]);
+    i = parents[i];
+  };
+  reverse(path.begin(), path.end());
+  path.push_back(goalPoint);
+  return build_linked_list(path, g, h, names);
+};
+\end{lstlisting}
+
+\newpage
+
+%==============================================
+% TASK 3
+%==============================================
+\section{Task 3 -- Warehouse Robot Navigation with Obstacles}
+
+\subsection{Mô tả bài toán}
+
+Cho một nhà kho dạng lưới $m \times n$ (0 = ô trống, 1 = tường/chướng ngại vật). Robot di chuyển được theo 8 hướng:
+\begin{itemize}
+    \item 4 hướng thẳng (Up, Down, Left, Right): chi phí $= 1.0$
+    \item 4 hướng chéo (Up-Left, Up-Right, Down-Left, Down-Right): chi phí $= 1.5$
+\end{itemize}
+
+\textbf{Input:} Ma trận lưới, kích thước $m \times n$, tọa độ start, tọa độ goal, mode heuristic.
+
+\textbf{Output:} Linked list \texttt{PathNode} chứa các bước di chuyển từ start đến goal. Mỗi node lưu tên hướng (ví dụ \texttt{"Up-Right"}), $f(n)$, $g(n)$, $h(n)$.
+
+\textbf{Hàm chi phí:}
+\begin{itemize}
+    \item $g(n)$: tổng chi phí di chuyển thực tế từ start đến ô hiện tại
+    \item $h(n)$: ước lượng chi phí còn lại theo mode được chọn
+    \item Mode 1 -- Manhattan: $h = |x_1-x_2| + |y_1-y_2|$
+    \item Mode 2 -- Chebyshev: $h = \max(|x_1-x_2|,|y_1-y_2|)$
+\end{itemize}
+
+\subsection{Vì sao Manhattan không admissible ở bài này?}
+
+Xét 1 bước đi chéo từ $(0,0)$ đến $(1,1)$:
+\begin{itemize}
+    \item Chi phí thực tế: $1.5$
+    \item Manhattan: $|1|+|1| = 2.0 > 1.5$ $\Rightarrow$ \textbf{không admissible}
+    \item Chebyshev: $\max(1,1) = 1.0 \leq 1.5$ $\Rightarrow$ \textbf{admissible}
+\end{itemize}
+
+Do Manhattan đánh giá quá cao chi phí đi chéo, A* Mode 1 sẽ \textbf{không đảm bảo tìm ra đường tối ưu} trong một số trường hợp ví dụ như test case 9 của task 3.
+
+\subsection{Manual Run test case 9 task 3}
+
+\textbf{Lưới 9x10, Start=(5,7), Goal=(0,3):}
+
+\begin{lstlisting}[language={}, numbers=none]
+Col: 0 1 2 3 4 5 6 7 8 9
+R0:  0 0 0 0 1 0 0 0 1 0   <- Goal (0,3)
+R1:  0 1 1 1 1 0 0 1 0 0
+R2:  0 0 0 0 0 0 0 0 0 0
+R3:  0 1 1 1 0 1 0 0 0 1
+R4:  0 1 1 0 1 0 1 1 0 0
+R5:  0 1 1 0 0 0 1 0 0 0   <- Start (5,7)
+R6:  0 1 0 1 1 0 0 0 1 1
+R7:  0 0 0 1 1 0 0 0 0 1
+R8:  0 0 0 0 0 0 0 0 0 0
+\end{lstlisting}
+
+\textbf{Mode 1 (Manhattan) -- 6 bước đầu:}
+
+Khởi tạo: $g(5,7)=0$, $h=|5-0|+|7-3|=9$, $f=9$. Push $(5,7)$.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{clcccl}
+\toprule
+\textbf{Bước} & \textbf{Pop} & $g$ & $h$ & $f$ & \textbf{Ghi chú} \\
+\midrule
+1 & (5,7) & 0   & 9 & 9    & Push Up-Right(4,8) và Down-Left(6,6), cùng $f=10.5$ \\
+2 & (4,8) Up-Right & 1.5 & 9 & 10.5 & Push trước nên pop trước; push (3,7) $f=10$ \\
+3 & (3,7) Up-Left  & 3.0 & 7 & 10   & Push (2,6) $f=9.5$ \\
+4 & (2,6) Up-Left  & 4.5 & 5 & 9.5  & Push (1,5) $f=9$ \\
+5 & (1,5) Up-Left  & 6.0 & 3 & 9    & Push (0,5) $f=9$ \\
+6 & (0,5) Up       & 7.0 & 2 & 9    & Không có neighbor hợp lệ nào rẻ hơn \\
+\bottomrule
+\end{tabular}
+\caption{6 bước đầu của A* Mode 1 trên lưới 9x10}
+\end{table}
+
+Thuật toán tiếp tục thêm 41 bước, đến đích ở bước 47 với $g=14.5$.
+
+\textbf{Output Mode 1:}
+\begin{lstlisting}[language={}, numbers=none]
+Node: Up-Right  | f: 10.5 | g:  1.5 | h: 9
+Node: Up-Left   | f: 10   | g:  3   | h: 7
+Node: Up-Left   | f:  9.5 | g:  4.5 | h: 5
+Node: Left      | f:  9.5 | g:  5.5 | h: 4
+Node: Left      | f:  9.5 | g:  6.5 | h: 3
+Node: Left      | f:  9.5 | g:  7.5 | h: 2
+Node: Left      | f: 11.5 | g:  8.5 | h: 3
+Node: Left      | f: 13.5 | g:  9.5 | h: 4
+Node: Up-Left   | f: 15   | g: 11   | h: 4
+Node: Up-Right  | f: 14.5 | g: 12.5 | h: 2
+Node: Right     | f: 14.5 | g: 13.5 | h: 1
+Node: Right     | f: 14.5 | g: 14.5 | h: 0
+\end{lstlisting}
+
+Tổng chi phí $g=14.5$ -- không tối ưu, do Manhattan overestimate.
+
+\textbf{Output Mode 2 (Chebyshev):}
+\begin{lstlisting}[language={}, numbers=none]
+Node: Down-Left | f:  7.5 | g:  1.5 | h: 6
+Node: Up-Left   | f:  8   | g:  3   | h: 5
+Node: Up        | f:  8   | g:  4   | h: 4
+Node: Up-Left   | f:  8.5 | g:  5.5 | h: 3
+Node: Up-Left   | f:  9   | g:  7   | h: 2
+Node: Left      | f: 10   | g:  8   | h: 2
+Node: Left      | f: 11   | g:  9   | h: 2
+Node: Up-Left   | f: 13.5 | g: 10.5 | h: 3
+Node: Up-Right  | f: 14   | g: 12   | h: 2
+Node: Right     | f: 14   | g: 13   | h: 1
+Node: Right     | f: 14   | g: 14   | h: 0
+\end{lstlisting}
+
+Tổng chi phí $g=14.0$ -- tối ưu, Chebyshev admissible.
+
+\subsection{So sánh hai mode}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{Tiêu chí} & \textbf{Mode 1 (Manhattan)} & \textbf{Mode 2 (Chebyshev)} \\
+\midrule
+Công thức & $|dx|+|dy|$ & $\max(|dx|,|dy|)$ \\
+Admissible với đi chéo? & Không ($2.0 > 1.5$) & Có ($1.0 \leq 1.5$) \\
+Đảm bảo tối ưu? & Không & Có \\
+Chi phí tìm được & 14.5 & 14.0 \\
+Bước đầu từ Start & Up-Right & Down-Left \\
+\bottomrule
+\end{tabular}
+\caption{So sánh Mode 1 và Mode 2, Task 3}
+\end{table}
+
+\subsection{Code hiện thực}
+\begin{lstlisting}[caption={Hàm heuristic\_task\_3\_4 và findWarehousePath}]
+double heuristic_task_3_4(int x1, int x2, int y1, int y2, int mode) {
+  if (mode == 1) {
+    return abs(x1 - x2) + abs(y1 - y2);
+  }
+  if (mode == 2) {
+    return max(abs(x1 - x2), abs(y1 - y2));
+  }
+  return 0.0;
+};
+
+PathNode *findWarehousePath(int warehouse[100][100], int m, int n, int startX,
+                            int startY, int goalX, int goalY, int mode) {
+  double g[10000], h[10000];
+  bool visited[10000];
+  MinHeap ncn;
+  string names[10000];
+  int parents[10000];
+  vector<int> path;
+  // helper from 2d to 1d
+  const int dx[] = {-1, 1, 0, 0, -1, -1, 1, 1};
+  const int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+  const double m_cost[] = {1.0, 1.0, 1.0, 1.0, 1.5, 1.5, 1.5, 1.5};
+  const string directions[] = {"Up",        "Down",      "Left",
+                               "Right",     "Up-Left",   "Up-Right",
+                               "Down-Left", "Down-Right"};
+
+  int startPoint = startX * 100 + startY;
+  int goalPoint = goalX * 100 + goalY;
+
+  if (startPoint == goalPoint) {
+    PathNode *head = nullptr;
+    string name = "(" + to_string(startX) + "," + to_string(startY) + ")";
+    head = new PathNode(name, 0, 0, 0);
+    return head;
+  }
+
+  for (int i = 0; i < 10000; i++) {
+    g[i] = MAX;
+    h[i] = MAX;
+    visited[i] = false;
+    parents[i] = -1;
+  };
+  g[startPoint] = 0;
+  h[startPoint] = heuristic_task_3_4(startX, goalX, startY, goalY, mode);
+  names[startPoint] = "(" + to_string(startX) + "," + to_string(startY) + ")";
+  ncn.push(g[startPoint] + h[startPoint], h[startPoint],
+           startPoint);
+
+  while (!ncn.empty()) {
+    HeapNode temp = ncn.pop();
+    if (temp.id == (goalPoint))
+      break;
+    if (visited[temp.id] == true)
+      continue;
+    visited[temp.id] = true;
+    int tx = temp.id / 100;
+    int ty = temp.id % 100;
+    for (int i = 0; i < 8; i++) {
+      int nx = tx + dx[i];
+      int ny = ty + dy[i];
+      if ((nx >= 0 && nx <= m - 1 && ny >= 0 && ny <= n - 1)) {
+        if (warehouse[nx][ny] == 0) {
+          int new_id = nx * 100 + ny;
+          double g_new = g[temp.id] + m_cost[i];
+          if (!visited[new_id] && g_new < g[new_id]) { 
+            double h_new = heuristic_task_3_4(nx, goalX, ny, goalY, mode);
+            ncn.push(g_new + h_new, h_new, new_id);
+            parents[new_id] = temp.id;
+            names[new_id] = directions[i];
+            g[new_id] = g_new;
+            h[new_id] = h_new;
+          }
+        } else if (warehouse[nx][ny] == 1)
+          continue;
+      }
+    }
+  }
+  if (parents[goalPoint] == -1)
+    return nullptr;
+  int i = goalPoint;
+
+  while (parents[i] != -1) {
+    path.push_back(parents[i]);
+    i = parents[i];
+  };
+  reverse(path.begin(), path.end());
+  path.push_back(goalPoint);
+  PathNode *trick;
+  trick = build_linked_list(path, g, h, names);
+  if (trick == nullptr)
+    return nullptr;
+  PathNode *head = trick->next;
+  delete trick; 
+  return head;
+};
+\end{lstlisting}
+
+\newpage
+
+%==============================================
+% TASK 4
+%==============================================
+\section{Task 4 -- Evacuation Route Planning}
+
+\subsection{Mô tả bài toán}
+
+Cho một mặt bằng tòa nhà dạng lưới $m \times n$ (0 = ô trống, 1 = tường). Tìm đường sơ tán ngắn nhất từ vị trí \texttt{(startX, startY)} đến lối thoát \texttt{(exitX, exitY)}. Bài toán giống Task 3 nhưng có thêm yêu cầu output bổ sung.
+
+\textbf{Input:} Ma trận lưới \texttt{floorPlan}, kích thước $m \times n$, tọa độ start, tọa độ exit, ma trận \texttt{weightMatrix} (truyền vào để ghi kết quả), mode heuristic.
+
+\textbf{Output:}
+\begin{itemize}
+    \item Linked list \texttt{PathNode} chứa các bước di chuyển (giống Task 3)
+    \item \texttt{weightMatrix[x][y]}: sau khi tìm được đường đi, mỗi ô nằm trên path được ghi giá trị $g(x,y)$ vào ma trận; các ô không nằm trên path giữ nguyên bằng 0
+\end{itemize}
+
+\textbf{Hàm chi phí:} Giống Task 3 (thẳng = 1.0, chéo = 1.5; Mode 1 Manhattan, Mode 2 Chebyshev).
+
+\subsection{Cách điền weightMatrix}
+
+Trong vòng truy vết ngược từ Goal về Start:
+
+\begin{lstlisting}[caption={Ghi weightMatrix trong findEvacuationPath -- Algo.cpp}]
+int i = goalPoint;
+while (parents[i] != -1) {
+    path.push_back(parents[i]);
+    int x = parents[i] / 100;
+    int y = parents[i] % 100;
+    weightMatrix[x][y] = g[parents[i]]; // ghi g cho o trong path
+    i = parents[i];
+}
+// ghi them o goal
+int x = goalPoint / 100, y = goalPoint % 100;
+weightMatrix[x][y] = g[goalPoint];
+\end{lstlisting}
+
+\subsection{Chạy tay ví dụ}
+
+\textbf{FloorPlan 4x4, tường tại (1,1), Start=(0,0), Goal=(2,2), Mode 1:}
+
+\begin{lstlisting}[language={}, numbers=none]
+     Col: 0  1  2  3
+Row 0: [  0  0  0  0  ]  <- Start (0,0)
+Row 1: [  0  W  0  0  ]  <- tuong tai (1,1)
+Row 2: [  0  0  0  0  ]  <- Goal (2,2)
+Row 3: [  0  0  0  0  ]
+\end{lstlisting}
+
+$h(\text{start}) = |0-2|+|0-2| = 4$, $f_0 = 4$.
+
+Các đường khả thi:
+\begin{itemize}
+    \item $(0,0) \to (1,0) \to (2,1) \to (2,2)$: $g = 1 + 1.5 + 1 = 3.5$ (tối ưu)
+    \item $(0,0) \to (0,1) \to (0,2) \to (1,2) \to (2,2)$: $g = 1+1+1+1 = 4.0$
+\end{itemize}
+
+A* tìm ra đường $g=3.5$.
+
+\textbf{Output:}
+\begin{lstlisting}[language={}, numbers=none]
+Node: Down       | f: 4   | g: 1   | h: 3
+Node: Down-Right | f: 3.5 | g: 2.5 | h: 1
+Node: Right      | f: 3.5 | g: 3.5 | h: 0
+\end{lstlisting}
+
+\textbf{WeightMatrix sau khi chạy:}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccl}
+\toprule
+\textbf{Ô} & \textbf{weightMatrix} & \textbf{Lý do} \\
+\midrule
+$(0,0)$ & 0   & Start, reset\_double để 0 từ đầu \\
+$(1,0)$ & 1.0 & Nằm trong path, ghi bởi vòng while \\
+$(2,1)$ & 2.5 & Nằm trong path, ghi bởi vòng while \\
+$(2,2)$ & 3.5 & Goal, ghi sau vòng while \\
+Còn lại & 0   & Không nằm trong path \\
+\bottomrule
+\end{tabular}
+\caption{Kết quả weightMatrix sau Task 4}
+\end{table}
+
+\subsection{Code hiện thực ghi weightMatrix}
+\begin{lstlisting}[caption={Hàm findEvacuationPath xử lý weightMatrix}]
+PathNode *findEvacuationPath(int floorPlan[100][100], int m, int n, int startX,
+                             int startY, int exitX, int exitY,
+                             double weightMatrix[100][100], int mode) {
+    double g[10000], h[10000];
+    bool visited[10000];
+    MinHeap ncn;
+    string names[10000];
+    int parents[10000];
+    vector<int> path;
+    // helper from 2d to 1d
+    const int dx[] = {-1, 1, 0, 0, -1, -1, 1, 1};
+    const int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+    const double m_cost[] = {1.0, 1.0, 1.0, 1.0, 1.5, 1.5, 1.5, 1.5};
+    const string directions[] = {"Up",        "Down",      "Left",
+                                "Right",     "Up-Left",   "Up-Right",
+                                "Down-Left", "Down-Right"};
+
+    int startPoint = startX * 100 + startY;
+    int goalPoint = exitX * 100 + exitY;
+
+    if (startPoint == goalPoint) {
+        PathNode *head = nullptr;
+        string name = "(" + to_string(startX) + "," + to_string(startY) + ")";
+        head = new PathNode(name, 0, 0, 0);
+        weightMatrix[startX][startY] = 0;
+        return head;
+    }
+
+    for (int i = 0; i < 10000; i++) {
+        g[i] = MAX;
+        h[i] = MAX;
+        visited[i] = false;
+        parents[i] = -1;
+    };
+    g[startPoint] = 0;
+    h[startPoint] = heuristic_task_3_4(startX, exitX, startY, exitY, mode);
+    names[startPoint] = "(" + to_string(startX) + "," + to_string(startY) + ")";
+    ncn.push(g[startPoint] + h[startPoint], h[startPoint],
+            startPoint); 
+
+    while (!ncn.empty()) {
+        HeapNode temp = ncn.pop();
+        if (temp.id == (goalPoint)) break;
+        if (visited[temp.id] == true) continue;
+        visited[temp.id] = true;
+        int tx = temp.id / 100;
+        int ty = temp.id % 100;
+        for (int i = 0; i < 8; i++) {
+        int nx = tx + dx[i];
+        int ny = ty + dy[i];
+        if ((nx >= 0 && nx <= m - 1 && ny >= 0 && ny <= n - 1)) {
+            if (floorPlan[nx][ny] == 0) {
+            int new_id = nx * 100 + ny;
+            double g_new = g[temp.id] + m_cost[i];
+            if (!visited[new_id]&&g_new < g[new_id]) {
+                double h_new = heuristic_task_3_4(nx, exitX, ny, exitY, mode);
+                ncn.push(g_new + h_new, h_new, new_id);
+                parents[new_id] = temp.id;
+                names[new_id] = directions[i];
+                g[new_id] = g_new;
+                h[new_id] = h_new;
+            }
+            } else if (floorPlan[nx][ny] == 1)
+            continue;
+        }
+        }
+    }
+    if (parents[goalPoint] == -1)
+        return nullptr;
+    int i = goalPoint;
+
+    while (parents[i] != -1) {
+        path.push_back(parents[i]);
+        int x = parents[i] / 100;
+        int y = parents[i] % 100;
+        weightMatrix[x][y] = g[parents[i]];
+        i = parents[i];
+    };
+    reverse(path.begin(), path.end());
+    path.push_back(goalPoint);
+    int x = goalPoint / 100;
+    int y = goalPoint % 100;
+    weightMatrix[x][y] = g[goalPoint];
+    PathNode *trick;
+    trick = build_linked_list(path, g, h, names);
+    if (trick == nullptr)
+      return nullptr;
+    PathNode *head = trick->next;
+    delete trick;
+    return head;
+};
+\end{lstlisting}
+
+\end{document}

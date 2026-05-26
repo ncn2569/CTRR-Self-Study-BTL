@@ -16,6 +16,7 @@ inline PathNode *build_linked_list(
   };
   return head;
 };
+const double MAX = 999999;
 void heuristic_task_1(int goal, double matrix[100][100], double h[100]) {
   // mô phỏng queue bằng head + q.size() FIFO
   // head giữ index từng hàng, hết hàng thì out
@@ -36,7 +37,7 @@ void heuristic_task_1(int goal, double matrix[100][100], double h[100]) {
     head = head + 1;
   };
 };
-const double MAX = 999999;
+
 
 PathNode *findSocialPath(double adjMatrix[100][100], int startPerson,
                          int goalPerson) {
@@ -239,7 +240,7 @@ PathNode *findWarehousePath(int warehouse[100][100], int m, int n, int startX,
         if (warehouse[nx][ny] == 0) {
           int new_id = nx * 100 + ny;
           double g_new = g[temp.id] + m_cost[i];
-          if (!visited[new_id] && g_new < g[new_id]) {
+          if (!visited[new_id] && g_new < g[new_id]) { 
             double h_new = heuristic_task_3_4(nx, goalX, ny, goalY, mode);
             ncn.push(g_new + h_new, h_new, new_id);
             parents[new_id] = temp.id;
@@ -325,7 +326,7 @@ PathNode *findEvacuationPath(int floorPlan[100][100], int m, int n, int startX,
             if (floorPlan[nx][ny] == 0) {
             int new_id = nx * 100 + ny;
             double g_new = g[temp.id] + m_cost[i];
-            if (!visited[new_id] && g_new < g[new_id]) {
+            if (!visited[new_id]&&g_new < g[new_id]) {
                 double h_new = heuristic_task_3_4(nx, exitX, ny, exitY, mode);
                 ncn.push(g_new + h_new, h_new, new_id);
                 parents[new_id] = temp.id;

@@ -461,3 +461,456 @@
 // Node: 52 | f: 30.7072 | g: 3.8 | h: 26.9072
 // Node: 38 | f: 14.9801 | g: 7.7 | h: 7.28011
 // Node: 20 | f: 15.2 | g: 15.2 | h: 0
+
+//TEST CASE TASK 3:
+// 	Test	Expected	Got	
+// int startX=0;
+// int startY=0;
+// int goalX=8;
+// int goalY=9;
+// int r=9,c=10;
+// PathNode* OutPath;
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,1);
+// printPath(OutPath);
+// Solution Path:
+// Node: Down | f: 17 | g: 1 | h: 16
+// Node: Down-Right | f: 16.5 | g: 2.5 | h: 14
+// Node: Right | f: 16.5 | g: 3.5 | h: 13
+// Node: Right | f: 16.5 | g: 4.5 | h: 12
+// Node: Down-Right | f: 16 | g: 6 | h: 10
+// Node: Down-Right | f: 15.5 | g: 7.5 | h: 8
+// Node: Down | f: 15.5 | g: 8.5 | h: 7
+// Node: Down-Right | f: 15 | g: 10 | h: 5
+// Node: Down-Right | f: 14.5 | g: 11.5 | h: 3
+// Node: Down-Right | f: 14 | g: 13 | h: 1
+// Node: Right | f: 14 | g: 14 | h: 0
+// Solution Path:
+// Node: Down | f: 17 | g: 1 | h: 16
+// Node: Down-Right | f: 16.5 | g: 2.5 | h: 14
+// Node: Right | f: 16.5 | g: 3.5 | h: 13
+// Node: Right | f: 16.5 | g: 4.5 | h: 12
+// Node: Down-Right | f: 16 | g: 6 | h: 10
+// Node: Down-Right | f: 15.5 | g: 7.5 | h: 8
+// Node: Down | f: 15.5 | g: 8.5 | h: 7
+// Node: Down-Right | f: 15 | g: 10 | h: 5
+// Node: Down-Right | f: 14.5 | g: 11.5 | h: 3
+// Node: Down-Right | f: 14 | g: 13 | h: 1
+// Node: Right | f: 14 | g: 14 | h: 0
+// int startX=0;
+// int startY=0;
+// int goalX=0;
+// int goalY=9;
+// int r=9,c=10;
+// PathNode* OutPath;
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,1);
+// printPath(OutPath);
+// Solution Path:
+// Node: Down | f: 11 | g: 1 | h: 10
+// Node: Down-Right | f: 12.5 | g: 2.5 | h: 10
+// Node: Right | f: 12.5 | g: 3.5 | h: 9
+// Node: Right | f: 12.5 | g: 4.5 | h: 8
+// Node: Right | f: 12.5 | g: 5.5 | h: 7
+// Node: Right | f: 12.5 | g: 6.5 | h: 6
+// Node: Right | f: 12.5 | g: 7.5 | h: 5
+// Node: Right | f: 12.5 | g: 8.5 | h: 4
+// Node: Up-Right | f: 12 | g: 10 | h: 2
+// Node: Up-Right | f: 11.5 | g: 11.5 | h: 0
+// Solution Path:
+// Node: Down | f: 11 | g: 1 | h: 10
+// Node: Down-Right | f: 12.5 | g: 2.5 | h: 10
+// Node: Right | f: 12.5 | g: 3.5 | h: 9
+// Node: Right | f: 12.5 | g: 4.5 | h: 8
+// Node: Right | f: 12.5 | g: 5.5 | h: 7
+// Node: Right | f: 12.5 | g: 6.5 | h: 6
+// Node: Right | f: 12.5 | g: 7.5 | h: 5
+// Node: Right | f: 12.5 | g: 8.5 | h: 4
+// Node: Up-Right | f: 12 | g: 10 | h: 2
+// Node: Up-Right | f: 11.5 | g: 11.5 | h: 0
+// int startX=4;
+// int startY=5;
+// int goalX=4;
+// int goalY=0;
+// int r=9,c=10;
+// PathNode* OutPath;
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,2);
+// printPath(OutPath);
+// Solution Path:
+// Node: Up-Left | f: 5.5 | g: 1.5 | h: 4
+// Node: Up-Left | f: 6 | g: 3 | h: 3
+// Node: Left | f: 6 | g: 4 | h: 2
+// Node: Left | f: 7 | g: 5 | h: 2
+// Node: Down-Left | f: 7.5 | g: 6.5 | h: 1
+// Node: Down | f: 7.5 | g: 7.5 | h: 0
+// Solution Path:
+// Node: Up-Left | f: 5.5 | g: 1.5 | h: 4
+// Node: Up-Left | f: 6 | g: 3 | h: 3
+// Node: Left | f: 6 | g: 4 | h: 2
+// Node: Left | f: 7 | g: 5 | h: 2
+// Node: Down-Left | f: 7.5 | g: 6.5 | h: 1
+// Node: Down | f: 7.5 | g: 7.5 | h: 0
+// int startX=4;
+// int startY=5;
+// int goalX=0;
+// int goalY=5;
+// int r=9,c=10;
+// PathNode* OutPath;
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,2);
+// printPath(OutPath);
+// Solution Path:
+// Node: Up-Right | f: 4.5 | g: 1.5 | h: 3
+// Node: Up | f: 4.5 | g: 2.5 | h: 2
+// Node: Up | f: 4.5 | g: 3.5 | h: 1
+// Node: Up-Left | f: 5 | g: 5 | h: 0
+// Solution Path:
+// Node: Up-Right | f: 4.5 | g: 1.5 | h: 3
+// Node: Up | f: 4.5 | g: 2.5 | h: 2
+// Node: Up | f: 4.5 | g: 3.5 | h: 1
+// Node: Up-Left | f: 5 | g: 5 | h: 0
+// int startX=4;
+// int startY=8;
+// int goalX=5;
+// int goalY=0;
+// int r=9,c=10;
+// cout<<"Mode 1 ";
+// PathNode* OutPath;
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,1);
+// printPath(OutPath);
+// cout<<"Mode 2 ";
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,2);
+// printPath(OutPath);
+// Mode 1 Solution Path:
+// Node: Up-Left | f: 10.5 | g: 1.5 | h: 9
+// Node: Left | f: 10.5 | g: 2.5 | h: 8
+// Node: Up-Left | f: 12 | g: 4 | h: 8
+// Node: Left | f: 12 | g: 5 | h: 7
+// Node: Left | f: 12 | g: 6 | h: 6
+// Node: Left | f: 12 | g: 7 | h: 5
+// Node: Left | f: 12 | g: 8 | h: 4
+// Node: Down-Left | f: 11.5 | g: 9.5 | h: 2
+// Node: Down | f: 11.5 | g: 10.5 | h: 1
+// Node: Down | f: 11.5 | g: 11.5 | h: 0
+// Mode 2 Solution Path:
+// Node: Up-Left | f: 8.5 | g: 1.5 | h: 7
+// Node: Left | f: 8.5 | g: 2.5 | h: 6
+// Node: Up-Left | f: 9 | g: 4 | h: 5
+// Node: Left | f: 9 | g: 5 | h: 4
+// Node: Left | f: 9 | g: 6 | h: 3
+// Node: Left | f: 10 | g: 7 | h: 3
+// Node: Left | f: 11 | g: 8 | h: 3
+// Node: Down-Left | f: 11.5 | g: 9.5 | h: 2
+// Node: Down | f: 11.5 | g: 10.5 | h: 1
+// Node: Down | f: 11.5 | g: 11.5 | h: 0
+// Mode 1 Solution Path:
+// Node: Up-Left | f: 10.5 | g: 1.5 | h: 9
+// Node: Left | f: 10.5 | g: 2.5 | h: 8
+// Node: Up-Left | f: 12 | g: 4 | h: 8
+// Node: Left | f: 12 | g: 5 | h: 7
+// Node: Left | f: 12 | g: 6 | h: 6
+// Node: Left | f: 12 | g: 7 | h: 5
+// Node: Left | f: 12 | g: 8 | h: 4
+// Node: Down-Left | f: 11.5 | g: 9.5 | h: 2
+// Node: Down | f: 11.5 | g: 10.5 | h: 1
+// Node: Down | f: 11.5 | g: 11.5 | h: 0
+// Mode 2 Solution Path:
+// Node: Up-Left | f: 8.5 | g: 1.5 | h: 7
+// Node: Left | f: 8.5 | g: 2.5 | h: 6
+// Node: Up-Left | f: 9 | g: 4 | h: 5
+// Node: Left | f: 9 | g: 5 | h: 4
+// Node: Left | f: 9 | g: 6 | h: 3
+// Node: Left | f: 10 | g: 7 | h: 3
+// Node: Left | f: 11 | g: 8 | h: 3
+// Node: Down-Left | f: 11.5 | g: 9.5 | h: 2
+// Node: Down | f: 11.5 | g: 10.5 | h: 1
+// Node: Down | f: 11.5 | g: 11.5 | h: 0
+// int startX=4;
+// int startY=8;
+// int goalX=0;
+// int goalY=3;
+// int r=9,c=10;
+// cout<<"Mode 1 ";
+// PathNode* OutPath;
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,1);
+// printPath(OutPath);
+// cout<<"Mode 2 ";
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,2);
+// printPath(OutPath);
+// Mode 1 Solution Path:
+// Node: Up-Left | f: 8.5 | g: 1.5 | h: 7
+// Node: Up-Left | f: 8 | g: 3 | h: 5
+// Node: Left | f: 8 | g: 4 | h: 4
+// Node: Left | f: 8 | g: 5 | h: 3
+// Node: Left | f: 8 | g: 6 | h: 2
+// Node: Left | f: 10 | g: 7 | h: 3
+// Node: Left | f: 12 | g: 8 | h: 4
+// Node: Up-Left | f: 13.5 | g: 9.5 | h: 4
+// Node: Up-Right | f: 13 | g: 11 | h: 2
+// Node: Right | f: 13 | g: 12 | h: 1
+// Node: Right | f: 13 | g: 13 | h: 0
+// Mode 2 Solution Path:
+// Node: Up-Left | f: 5.5 | g: 1.5 | h: 4
+// Node: Left | f: 5.5 | g: 2.5 | h: 3
+// Node: Up-Left | f: 6 | g: 4 | h: 2
+// Node: Left | f: 7 | g: 5 | h: 2
+// Node: Left | f: 8 | g: 6 | h: 2
+// Node: Left | f: 9 | g: 7 | h: 2
+// Node: Left | f: 10 | g: 8 | h: 2
+// Node: Up-Left | f: 12.5 | g: 9.5 | h: 3
+// Node: Up-Right | f: 13 | g: 11 | h: 2
+// Node: Right | f: 13 | g: 12 | h: 1
+// Node: Right | f: 13 | g: 13 | h: 0
+// Mode 1 Solution Path:
+// Node: Up-Left | f: 8.5 | g: 1.5 | h: 7
+// Node: Up-Left | f: 8 | g: 3 | h: 5
+// Node: Left | f: 8 | g: 4 | h: 4
+// Node: Left | f: 8 | g: 5 | h: 3
+// Node: Left | f: 8 | g: 6 | h: 2
+// Node: Left | f: 10 | g: 7 | h: 3
+// Node: Left | f: 12 | g: 8 | h: 4
+// Node: Up-Left | f: 13.5 | g: 9.5 | h: 4
+// Node: Up-Right | f: 13 | g: 11 | h: 2
+// Node: Right | f: 13 | g: 12 | h: 1
+// Node: Right | f: 13 | g: 13 | h: 0
+// Mode 2 Solution Path:
+// Node: Up-Left | f: 5.5 | g: 1.5 | h: 4
+// Node: Left | f: 5.5 | g: 2.5 | h: 3
+// Node: Up-Left | f: 6 | g: 4 | h: 2
+// Node: Left | f: 7 | g: 5 | h: 2
+// Node: Left | f: 8 | g: 6 | h: 2
+// Node: Left | f: 9 | g: 7 | h: 2
+// Node: Left | f: 10 | g: 8 | h: 2
+// Node: Up-Left | f: 12.5 | g: 9.5 | h: 3
+// Node: Up-Right | f: 13 | g: 11 | h: 2
+// Node: Right | f: 13 | g: 12 | h: 1
+// Node: Right | f: 13 | g: 13 | h: 0
+// int startX=8;
+// int startY=0;
+// int goalX=0;
+// int goalY=9;
+// int r=9,c=10;
+// cout<<"Mode 1 ";
+// PathNode* OutPath;
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,1);
+// printPath(OutPath);
+// cout<<"Mode 2 ";
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,2);
+// printPath(OutPath);
+// Mode 1 Solution Path:
+// Node: Up-Right | f: 16.5 | g: 1.5 | h: 15
+// Node: Up-Right | f: 16 | g: 3 | h: 13
+// Node: Up-Right | f: 15.5 | g: 4.5 | h: 11
+// Node: Up | f: 15.5 | g: 5.5 | h: 10
+// Node: Up-Right | f: 15 | g: 7 | h: 8
+// Node: Up-Right | f: 14.5 | g: 8.5 | h: 6
+// Node: Right | f: 14.5 | g: 9.5 | h: 5
+// Node: Right | f: 14.5 | g: 10.5 | h: 4
+// Node: Up-Right | f: 14 | g: 12 | h: 2
+// Node: Up-Right | f: 13.5 | g: 13.5 | h: 0
+// Mode 2 Solution Path:
+// Node: Up-Right | f: 9.5 | g: 1.5 | h: 8
+// Node: Up-Right | f: 10 | g: 3 | h: 7
+// Node: Up-Right | f: 10.5 | g: 4.5 | h: 6
+// Node: Right | f: 10.5 | g: 5.5 | h: 5
+// Node: Up-Right | f: 11 | g: 7 | h: 4
+// Node: Up-Right | f: 11.5 | g: 8.5 | h: 3
+// Node: Up-Right | f: 12 | g: 10 | h: 2
+// Node: Up-Right | f: 12.5 | g: 11.5 | h: 1
+// Node: Up-Right | f: 13 | g: 13 | h: 0
+// Mode 1 Solution Path:
+// Node: Up-Right | f: 16.5 | g: 1.5 | h: 15
+// Node: Up-Right | f: 16 | g: 3 | h: 13
+// Node: Up-Right | f: 15.5 | g: 4.5 | h: 11
+// Node: Up | f: 15.5 | g: 5.5 | h: 10
+// Node: Up-Right | f: 15 | g: 7 | h: 8
+// Node: Up-Right | f: 14.5 | g: 8.5 | h: 6
+// Node: Right | f: 14.5 | g: 9.5 | h: 5
+// Node: Right | f: 14.5 | g: 10.5 | h: 4
+// Node: Up-Right | f: 14 | g: 12 | h: 2
+// Node: Up-Right | f: 13.5 | g: 13.5 | h: 0
+// Mode 2 Solution Path:
+// Node: Up-Right | f: 9.5 | g: 1.5 | h: 8
+// Node: Up-Right | f: 10 | g: 3 | h: 7
+// Node: Up-Right | f: 10.5 | g: 4.5 | h: 6
+// Node: Right | f: 10.5 | g: 5.5 | h: 5
+// Node: Up-Right | f: 11 | g: 7 | h: 4
+// Node: Up-Right | f: 11.5 | g: 8.5 | h: 3
+// Node: Up-Right | f: 12 | g: 10 | h: 2
+// Node: Up-Right | f: 12.5 | g: 11.5 | h: 1
+// Node: Up-Right | f: 13 | g: 13 | h: 0
+// int startX=8;
+// int startY=0;
+// int goalX=0;
+// int goalY=7;
+// int r=9,c=10;
+// cout<<"Mode 1 ";
+// PathNode* OutPath;
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,1);
+// printPath(OutPath);
+// cout<<"Mode 2 ";
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,2);
+// printPath(OutPath);
+// Mode 1 Solution Path:
+// Node: Up-Right | f: 14.5 | g: 1.5 | h: 13
+// Node: Up-Right | f: 14 | g: 3 | h: 11
+// Node: Up-Right | f: 13.5 | g: 4.5 | h: 9
+// Node: Up | f: 13.5 | g: 5.5 | h: 8
+// Node: Up-Right | f: 13 | g: 7 | h: 6
+// Node: Up-Right | f: 12.5 | g: 8.5 | h: 4
+// Node: Up-Right | f: 12 | g: 10 | h: 2
+// Node: Up-Right | f: 11.5 | g: 11.5 | h: 0
+// Mode 2 Solution Path:
+// Node: Up-Right | f: 8.5 | g: 1.5 | h: 7
+// Node: Up-Right | f: 9 | g: 3 | h: 6
+// Node: Up-Right | f: 9.5 | g: 4.5 | h: 5
+// Node: Up | f: 9.5 | g: 5.5 | h: 4
+// Node: Up-Right | f: 10 | g: 7 | h: 3
+// Node: Up-Right | f: 10.5 | g: 8.5 | h: 2
+// Node: Up-Right | f: 11 | g: 10 | h: 1
+// Node: Up-Right | f: 11.5 | g: 11.5 | h: 0
+// Mode 1 Solution Path:
+// Node: Up-Right | f: 14.5 | g: 1.5 | h: 13
+// Node: Up-Right | f: 14 | g: 3 | h: 11
+// Node: Up-Right | f: 13.5 | g: 4.5 | h: 9
+// Node: Up | f: 13.5 | g: 5.5 | h: 8
+// Node: Up-Right | f: 13 | g: 7 | h: 6
+// Node: Up-Right | f: 12.5 | g: 8.5 | h: 4
+// Node: Up-Right | f: 12 | g: 10 | h: 2
+// Node: Up-Right | f: 11.5 | g: 11.5 | h: 0
+// Mode 2 Solution Path:
+// Node: Up-Right | f: 8.5 | g: 1.5 | h: 7
+// Node: Up-Right | f: 9 | g: 3 | h: 6
+// Node: Up-Right | f: 9.5 | g: 4.5 | h: 5
+// Node: Up | f: 9.5 | g: 5.5 | h: 4
+// Node: Up-Right | f: 10 | g: 7 | h: 3
+// Node: Up-Right | f: 10.5 | g: 8.5 | h: 2
+// Node: Up-Right | f: 11 | g: 10 | h: 1
+// Node: Up-Right | f: 11.5 | g: 11.5 | h: 0
+
+// int startX=5;
+// int startY=7;
+// int goalX=0;
+// int goalY=3;
+// int r=9,c=10;
+// cout<<"Mode 1 ";
+// PathNode* OutPath;
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,1);
+// printPath(OutPath);
+// cout<<"Mode 2 ";
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,2);
+// printPath(OutPath);
+
+// === DEBUG MAZE (9x10) ===
+// 0 0 0 0 1 0 0 0 1 0
+// 0 1 1 1 1 0 0 1 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 1 1 1 0 1 0 0 0 1
+// 0 1 1 0 1 0 1 1 0 0
+// 0 1 1 0 0 0 1 0 0 0
+// 0 1 0 1 1 0 0 0 1 1
+// 0 0 0 1 1 0 0 0 0 1
+// 0 0 0 0 0 0 0 0 0 0
+
+// Mode 1 Solution Path:
+// Node: Up-Right | f: 10.5 | g: 1.5 | h: 9
+// Node: Up-Left | f: 10 | g: 3 | h: 7
+// Node: Up-Left | f: 9.5 | g: 4.5 | h: 5
+// Node: Left | f: 9.5 | g: 5.5 | h: 4
+// Node: Left | f: 9.5 | g: 6.5 | h: 3
+// Node: Left | f: 9.5 | g: 7.5 | h: 2
+// Node: Left | f: 11.5 | g: 8.5 | h: 3
+// Node: Left | f: 13.5 | g: 9.5 | h: 4
+// Node: Up-Left | f: 15 | g: 11 | h: 4
+// Node: Up-Right | f: 14.5 | g: 12.5 | h: 2
+// Node: Right | f: 14.5 | g: 13.5 | h: 1
+// Node: Right | f: 14.5 | g: 14.5 | h: 0
+// Mode 2 Solution Path:
+// Node: Down-Left | f: 7.5 | g: 1.5 | h: 6
+// Node: Up-Left | f: 8 | g: 3 | h: 5
+// Node: Up | f: 8 | g: 4 | h: 4
+// Node: Up-Left | f: 8.5 | g: 5.5 | h: 3
+// Node: Up-Left | f: 9 | g: 7 | h: 2
+// Node: Left | f: 10 | g: 8 | h: 2
+// Node: Left | f: 11 | g: 9 | h: 2
+// Node: Up-Left | f: 13.5 | g: 10.5 | h: 3
+// Node: Up-Right | f: 14 | g: 12 | h: 2
+// Node: Right | f: 14 | g: 13 | h: 1
+// Node: Right | f: 14 | g: 14 | h: 0
+// Mode 1 Solution Path:
+// Node: Down-Left | f: 10.5 | g: 1.5 | h: 9
+// Node: Up-Left | f: 10 | g: 3 | h: 7
+// Node: Up | f: 10 | g: 4 | h: 6
+// Node: Up-Left | f: 9.5 | g: 5.5 | h: 4
+// Node: Up-Left | f: 9 | g: 7 | h: 2
+// Node: Left | f: 11.5 | g: 8.5 | h: 3
+// Node: Left | f: 13.5 | g: 9.5 | h: 4
+// Node: Up-Left | f: 15 | g: 11 | h: 4
+// Node: Up-Right | f: 14.5 | g: 12.5 | h: 2
+// Node: Right | f: 14.5 | g: 13.5 | h: 1
+// Node: Right | f: 14.5 | g: 14.5 | h: 0
+// Mode 2 Solution Path:
+// Node: Down-Left | f: 7.5 | g: 1.5 | h: 6
+// Node: Up-Left | f: 8 | g: 3 | h: 5
+// Node: Up | f: 8 | g: 4 | h: 4
+// Node: Up-Left | f: 8.5 | g: 5.5 | h: 3
+// Node: Up-Left | f: 9 | g: 7 | h: 2
+// Node: Left | f: 10 | g: 8 | h: 2
+// Node: Left | f: 11 | g: 9 | h: 2
+// Node: Up-Left | f: 13.5 | g: 10.5 | h: 3
+// Node: Up-Right | f: 14 | g: 12 | h: 2
+// Node: Right | f: 14 | g: 13 | h: 1
+// Node: Right | f: 14 | g: 14 | h: 0
+// int startX=7;
+// int startY=2;
+// int goalX=0;
+// int goalY=3;
+// int r=9,c=10;
+// cout<<"Mode 1 ";
+// PathNode* OutPath;
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,1);
+// printPath(OutPath);
+// cout<<"Mode 2 ";
+// OutPath=findWarehousePath(Maze1, r, c, startX,startY,goalX,goalY,2);
+// printPath(OutPath);
+// Mode 1 Solution Path:
+// Node: Left | f: 10 | g: 1 | h: 9
+// Node: Up-Left | f: 11.5 | g: 2.5 | h: 9
+// Node: Up | f: 11.5 | g: 3.5 | h: 8
+// Node: Up | f: 11.5 | g: 4.5 | h: 7
+// Node: Up | f: 11.5 | g: 5.5 | h: 6
+// Node: Up | f: 11.5 | g: 6.5 | h: 5
+// Node: Up | f: 11.5 | g: 7.5 | h: 4
+// Node: Up-Right | f: 11 | g: 9 | h: 2
+// Node: Right | f: 11 | g: 10 | h: 1
+// Node: Right | f: 11 | g: 11 | h: 0
+// Mode 2 Solution Path:
+// Node: Left | f: 8 | g: 1 | h: 7
+// Node: Up-Left | f: 8.5 | g: 2.5 | h: 6
+// Node: Up | f: 8.5 | g: 3.5 | h: 5
+// Node: Up | f: 8.5 | g: 4.5 | h: 4
+// Node: Up | f: 8.5 | g: 5.5 | h: 3
+// Node: Up | f: 9.5 | g: 6.5 | h: 3
+// Node: Up | f: 10.5 | g: 7.5 | h: 3
+// Node: Up-Right | f: 11 | g: 9 | h: 2
+// Node: Right | f: 11 | g: 10 | h: 1
+// Node: Right | f: 11 | g: 11 | h: 0
+// Mode 1 Solution Path:
+// Node: Left | f: 10 | g: 1 | h: 9
+// Node: Up-Left | f: 11.5 | g: 2.5 | h: 9
+// Node: Up | f: 11.5 | g: 3.5 | h: 8
+// Node: Up | f: 11.5 | g: 4.5 | h: 7
+// Node: Up | f: 11.5 | g: 5.5 | h: 6
+// Node: Up | f: 11.5 | g: 6.5 | h: 5
+// Node: Up | f: 11.5 | g: 7.5 | h: 4
+// Node: Up-Right | f: 11 | g: 9 | h: 2
+// Node: Right | f: 11 | g: 10 | h: 1
+// Node: Right | f: 11 | g: 11 | h: 0
+// Mode 2 Solution Path:
+// Node: Left | f: 8 | g: 1 | h: 7
+// Node: Up-Left | f: 8.5 | g: 2.5 | h: 6
+// Node: Up | f: 8.5 | g: 3.5 | h: 5
+// Node: Up | f: 8.5 | g: 4.5 | h: 4
+// Node: Up | f: 8.5 | g: 5.5 | h: 3
+// Node: Up | f: 9.5 | g: 6.5 | h: 3
+// Node: Up | f: 10.5 | g: 7.5 | h: 3
+// Node: Up-Right | f: 11 | g: 9 | h: 2
+// Node: Right | f: 11 | g: 10 | h: 1
+// Node: Right | f: 11 | g: 11 | h: 0

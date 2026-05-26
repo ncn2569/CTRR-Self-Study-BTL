@@ -17,17 +17,6 @@ struct MinHeap {
     HeapNode top() const {
         return data[0];
     };  
-    void debug(){
-        if (data.size()==1){
-            cout<<"queue: "<<data[0].id<<" "<<endl;
-            return ;
-        };
-        for (int i=0;i<data.size();i++){
-            cout<<"queue: "<<data[i].id<<" ";
-        };
-        cout<<endl;
-        
-    };
     void push(double f,double h,int id){
         data.push_back({f,id,h});
         

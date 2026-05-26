@@ -412,7 +412,6 @@ void Test_Task3() {
  
     cout << "\n===============================================\n";
 };
- 
 // ============================================================
 //  TASK 4 — Evacuation Route Planning
 //  Giong Task 3 nhung:
@@ -552,10 +551,10 @@ void Test_Task4() {
     cout << "\n===============================================\n";
 };
 int main() {
-    //Test_Task1();
-    //Test_Task2();
+    Test_Task1();
+    Test_Task2();
     Test_Task3();
-    // Test_Task4();
+    Test_Task4();
     return 0;
 };
 
