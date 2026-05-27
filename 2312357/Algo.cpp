@@ -363,3 +363,111 @@ PathNode *findEvacuationPath(int floorPlan[100][100], int m, int n, int startX,
     delete trick; // Dọn dẹp node Start dư thừa
     return head;
 };
+
+// Hàm sửa lại của mình để bạn dễ dàng test
+PathNode *findEvacuationPath_Antigravity(int floorPlan[100][100], int m, int n, int startX,
+                             int startY, int exitX, int exitY,
+                             double weightMatrix[100][100], int mode) {
+  double g[10000], h[10000];
+  bool visited[10000];
+  MinHeap ncn;
+  string names[10000];
+  int parents[10000];
+  vector<int> path;
+
+  // Khởi tạo weightMatrix
+  for (int i = 0; i < 100; i++) {
+    for (int j = 0; j < 100; j++) {
+      weightMatrix[i][j] = 0.0;
+    }
+  }
+
+  // Chuyển grid thành graph (weightMatrix)
+  const int dx[] = {-1, 1, 0, 0, -1, -1, 1, 1};
+  const int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+  const double m_cost[] = {1.0, 1.0, 1.0, 1.0, 1.5, 1.5, 1.5, 1.5};
+
+  for (int x = 0; x < m; x++) {
+    for (int y = 0; y < n; y++) {
+      if (floorPlan[x][y] == 1)
+        continue;
+      int u = x * n + y;
+      for (int i = 0; i < 8; i++) {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+        if (nx >= 0 && nx < m && ny >= 0 && ny < n && floorPlan[nx][ny] == 0) {
+          int v = nx * n + ny;
+          weightMatrix[u][v] = m_cost[i];
+        }
+      }
+    }
+  }
+
+  int startPoint = startX * n + startY;
+  int goalPoint = exitX * n + exitY;
+
+  if (startPoint == goalPoint) {
+    PathNode *head = nullptr;
+    string name = "(" + to_string(startX) + ", " + to_string(startY) + ")";
+    head = new PathNode(name, 0, 0, 0);
+    return head;
+  }
+
+  int numNodes = m * n;
+  for (int i = 0; i < numNodes; i++) {
+    g[i] = MAX;
+    h[i] = MAX;
+    visited[i] = false;
+    parents[i] = -1;
+    int x = i / n;
+    int y = i % n;
+    names[i] = "(" + to_string(x) + ", " + to_string(y) + ")";
+  }
+
+  g[startPoint] = 0;
+  h[startPoint] = heuristic_task_3_4(startX, exitX, startY, exitY, mode);
+  ncn.push(g[startPoint] + h[startPoint], h[startPoint], startPoint);
+
+  while (!ncn.empty()) {
+    HeapNode temp = ncn.pop();
+    if (temp.id == goalPoint)
+      break;
+    if (visited[temp.id] == true)
+      continue;
+    visited[temp.id] = true;
+    
+    int u = temp.id;
+    int tx = u / n;
+    int ty = u % n;
+    
+    for (int i = 0; i < 8; i++) {
+      int nx = tx + dx[i];
+      int ny = ty + dy[i];
+      if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+        int v = nx * n + ny;
+        if (weightMatrix[u][v] != 0.0) {
+          double g_new = g[u] + weightMatrix[u][v];
+          if (!visited[v] && g_new < g[v]) {
+            g[v] = g_new;
+            parents[v] = u;
+            h[v] = heuristic_task_3_4(nx, exitX, ny, exitY, mode);
+            ncn.push(g[v] + h[v], h[v], v);
+          }
+        }
+      }
+    }
+  }
+
+  if (parents[goalPoint] == -1)
+    return nullptr;
+
+  int i = goalPoint;
+  while (parents[i] != -1) {
+    path.push_back(parents[i]);
+    i = parents[i];
+  }
+  reverse(path.begin(), path.end());
+  path.push_back(goalPoint);
+
+  return build_linked_list(path, g, h, names);
+};
