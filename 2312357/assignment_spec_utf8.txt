@@ -1,0 +1,625 @@
+﻿Vietnam National University, Ho Chi Minh City
+University of Technology
+Faculty of Computer Science and Engineering
+
+DISCRETE STRUCTURE
+(CO1007)
+
+Assignment
+
+A* ALGORITHMS
+
+(UPDATE April 28th, 2026)
+
+Instructor(s):
+
+Nguyß╗àn An Kh╞░╞íng, CSE-HCMUT
+L├¬ Hß╗ông Trang, CSE-HCMUT
+Trß║ºn Tuß║Ñn Anh,CSE-HCMUT
+Phß║ím An Vinh,CSE-HCMUT
+Mai Xu├ón To├án, CSE-HCMUT
+Trß║ºn Hß╗ông T├ái, CSE-HCMUT
+
+Note:
+
+To reduce the chance and effectiveness of cheating cases,
+there will be harmony questions in the final exam.
+
+Ho Chi Minh City, April 2026
+
+University of Technology
+Faculty of Computer Science and Engineering
+
+Table of Contents
+
+1 Introduction
+
+1.1 Graph Theory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.2 Path in a Graph . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.3 Pathfinding Algorithms
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.4 The Shortest Path Problem . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.5 A* Algorithm . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+2 Project Requirements
+2.1 Programming Tasks
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.2 Function Naming for Auto Testing . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.3 Common Data Structure Requirement . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+3 VERSION INFO & QUESTIONS
+
+3.1 Version Info . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.2 Guidelines for Asking Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.3 FAQ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+4 Instructions and requirements
+
+4.1
+Instruction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.2 Submission . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.3 Cheating treatment . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+1
+1
+1
+1
+2
+2
+
+3
+3
+5
+6
+
+6
+6
+7
+7
+
+7
+7
+7
+8
+
+Discrete structure (CO1007) Assignment, Semester 2, Academic year 2025-2026
+
+Page i/i
+
+University of Technology
+Faculty of Computer Science and Engineering
+
+1
+
+Introduction
+
+1.1 Graph Theory
+
+Graph theory is a foundational area of discrete mathematics that studies the relationships between
+objects using vertices and edges. A graph G = (V, E) consists of a set of vertices V and a set of edges
+E, where each edge connects a pair of vertices. Graphs can be directed or undirected, weighted
+or unweighted, and may represent a wide range of systems such as networks, maps, or decision
+trees. In computer science, graphs are used to model data structures, optimize routes, and analyze
+connectivity. Directed graphs (digraphs) are particularly useful in pathfinding problems, where
+each edge has a direction and possibly a cost associated with traversal. Weighted graphs assign
+numerical values to edges, representing distances, time, or other metrics. Graph theory provides the
+mathematical framework for designing and analyzing algorithms that operate on these structures,
+including traversal, search, and optimization techniques. Understanding graph propertiesΓÇösuch as
+connectivity, cycles, and shortest pathsΓÇöis essential for solving complex problems in fields like
+artificial intelligence, logistics, and operations research. In this project, we use a directed weighted
+graph to represent a maze, where each cell is a node and each valid move is an edge.
+
+1.2 Path in a Graph
+
+A path in a graph is a sequence of vertices connected by edges, representing a route from one point
+to another. Formally, a path from vertex v0 to vn is a sequence v0, v1, . . . , vn such that each pair
+(vi, vi+1) is an edge in the graph. The length of a path is typically defined as the number of edges
+it contains, while the cost of a path in a weighted graph is the sum of the weights of its edges.
+Paths can be simple (no repeated vertices), cyclic (starting and ending at the same vertex), or
+optimal (minimizing cost or length). In practical applications, paths are used to model navigation,
+communication, and decision-making processes. For example, in a maze represented as a graph,
+a path corresponds to a sequence of moves from the entrance to the exit. Identifying valid paths
+requires checking adjacency and avoiding obstacles or invalid transitions. In optimization problems,
+the goal is often to find the shortest or least-cost path among many possibilities. Algorithms like
+DijkstraΓÇÖs and A* are designed to efficiently explore graphs and identify optimal paths based on
+specific criteria.
+
+1.3 Pathfinding Algorithms
+
+Pathfinding algorithms are computational techniques used to determine a viable or optimal route
+between two points in a graph. These algorithms play a crucial role in various domains such as
+robotics, logistics, computer games, and navigation systems. At their core, pathfinding methods
+explore the structure of a graph to identify a sequence of edges that connect a start node to a goal
+node, often while minimizing cost, distance, or time.
+
+In weighted graphs, each edge carries a numerical value representing the cost of traversal.
+Pathfinding algorithms must account for these weights to avoid inefficient or costly routes. Some
+algorithms guarantee the shortest path, while others prioritize speed or simplicity, depending on
+the application. Common strategies include breadth-first search (BFS), depth-first search (DFS),
+and uniform cost search, each with its own strengths and limitations.
+
+Effective pathfinding depends on how the graph is represented, how neighbors are evaluated,
+and how decisions are made during traversal. In maze-solving problems, for example, the graph
+is typically a grid, and the algorithm must navigate around walls, dead ends, and open paths.
+
+Discrete structure (CO1007) Assignment, Semester 2, Academic year 2025-2026
+
+Page 1/8
+
+University of Technology
+Faculty of Computer Science and Engineering
+
+The final output is a sequence of nodes forming a valid path from the start to the goal, often
+reconstructed by tracing back through visited nodes once the goal is reached.
+
+1.4 The Shortest Path Problem
+
+The shortest path problem is a fundamental question in graph theory and computer science, con-
+cerned with finding the minimum-cost path between two vertices in a graph. Given a weighted
+graph G = (V, E), where each edge (u, v) Γêê E has an associated non-negative weight w(u, v), the
+goal is to determine a path from a source vertex s to a destination vertex t such that the sum of
+the edge weights along the path is minimized.
+
+This problem has numerous real-world applications, including GPS navigation, network routing,
+transportation planning, and robotics. Depending on the graphΓÇÖs structure and constraints, different
+algorithms may be employed. For instance, DijkstraΓÇÖs algorithm efficiently solves the single-source
+shortest path problem in graphs with non-negative weights, while the Bellman-Ford algorithm can
+handle graphs with negative edge weights. In cases where all edge weights are equal, a breadth-first
+search (BFS) can be used to find the shortest path in terms of the number of edges.
+
+The shortest path problem also serves as the foundation for more advanced optimization tech-
+niques, such as those used in heuristic search, dynamic programming, and reinforcement learning.
+Understanding this problem is essential for designing intelligent systems that operate efficiently in
+complex environments.
+
+1.5 A* Algorithm
+
+The A* (A-star) algorithm is a widely used pathfinding and graph traversal technique in computer
+science and artificial intelligence. It is designed to find the shortest path from a starting node to a
+goal node in a weighted graph or grid-based environment.
+
+A* combines the strengths of DijkstraΓÇÖs algorithm and Greedy Best-First Search by using a cost
+
+function defined as:
+
+where:
+
+f (n) = g(n) + h(n)
+
+ΓÇó g(n) is the actual cost from the start node to the current node.
+
+ΓÇó h(n) is the heuristic estimate of the cost from the current node to the goal.
+
+ΓÇó f (n) is the total estimated cost of the cheapest solution through node n.
+
+If the heuristic h(n) is admissible (i.e., it never overestimates the true cost to reach the goal),
+A* is guaranteed to find the optimal path. The choice of a heuristic has a significant impact on the
+algorithmΓÇÖs efficiency and accuracy.
+A* is commonly applied in:
+
+ΓÇó Maze and map navigation
+
+ΓÇó Puzzle solving (e.g., 8-puzzle)
+
+ΓÇó Robotics and autonomous movement
+
+ΓÇó Game AI and route planning
+
+Discrete structure (CO1007) Assignment, Semester 2, Academic year 2025-2026
+
+Page 2/8
+
+University of Technology
+Faculty of Computer Science and Engineering
+
+For example, the graph below illustrates a simple example of the A* pathfinding algorithm. Each
+node is labeled with its name, heuristic value h(n), and total cost estimate f (n) = g(n) + h(n). In
+this graph:
+
+ΓÇó Node S is the start node.
+
+ΓÇó Node G is the goal node.
+
+ΓÇó The optimal path is highlighted in red: S ΓåÆ A ΓåÆ D ΓåÆ G.
+
+h = 1, f = 3 + 1 = 4
+
+h = 2, f = 1 + 2 = 3
+
+2
+
+C
+
+1
+
+4
+
+S
+
+h = 3
+
+A
+
+B
+
+3
+
+h = 0, f = 4 + 0 = 4
+
+2
+
+G
+
+1
+
+h = 2, f = 4 + 2 = 6
+
+1
+
+D
+
+h = 1, f = 3 + 1 = 4
+
+Fig. 1: Example for A* algorithm
+
+In this project, students will implement A* in various contexts and explore its behavior under
+different heuristic strategies.
+
+2 Project Requirements
+
+2.1 Programming Tasks
+
+Students are required to complete the 4 programming tasks described in this section, each involving
+the application of the A* search algorithm to solve a practical problem. All implementations must
+be written in C++, using only the default libraries provided by the LMS CodeRunner environment,
+which include: <iostream>, <fstream>, <string>, <cmath>, <vector>, and <algorithm>. Finally,
+students must submit the following:
+
+ΓÇó PathNode.h and PathNode.cpp for the PathNode struct and related functions.
+
+ΓÇó Algo.h and Algo.cpp containing all functions that solve the tasks.
+
+ΓÇó A main.cpp file that demonstrates the programΓÇÖs functionality using sample input and output.
+
+ΓÇó A report file that answers the report requirements for each task, named after your student
+
+ID (e.g., 24252628.pdf).
+
+1. Degrees of Separation in a Social Network (2.5 pts): Given a social network graph rep-
+resented by an adjacency matrix, implement the A* algorithm to find the shortest connection
+path between two people.
+
+ΓÇó Input: Adjacency matrix, start person, goal person.
+
+Discrete structure (CO1007) Assignment, Semester 2, Academic year 2025-2026
+
+Page 3/8
+
+University of Technology
+Faculty of Computer Science and Engineering
+
+ΓÇó Output: A linked list containing the path of people from start to goal, along with f (n),
+
+g(n), and h(n) values at each step.
+
+ΓÇó Cost Function:
+
+ΓÇô g(n): Number of connections traversed from the start person to the current person.
+
+ΓÇô h(n): Estimated minimum number of connections remaining to reach the goal.
+
+ΓÇô f (n) = g(n) + h(n)
+
+ΓÇó Report Requirement: Explain how h(n) is calculated and provide a manual example
+
+run.
+
+2. Drone Delivery in 2D Space with Three Heuristics (2.5 pts): Given a set of delivery
+points represented by coordinates (x, y) and weighted edges, implement A* to find the shortest
+delivery route between two points using three heuristic modes.
+
+ΓÇó Input: Weight matrix, list of coordinates, start point, goal point, heuristic mode.
+ΓÇó Output: A linked list containing the path, with f (n), g(n), and h(n) values at each
+
+vertex.
+
+ΓÇó Cost Function:
+
+ΓÇô g(n): Total travel cost from the start point to the current point, calculated as the
+
+sum of edge weights along the path.
+
+ΓÇô h(n): Estimated cost from the current point to the goal point using the selected
+
+distance metric.
+
+ΓÇô f (n) = g(n) + h(n)
+
+ΓÇó Heuristic Modes:
+
+ΓÇô Mode 1: Manhattan distance ΓÇö h(n) = |x1 ΓêÆ x2| + |y1 ΓêÆ y2|
+ΓÇô Mode 2: Euclidean distance ΓÇö h(n) = (cid:112)(x1 ΓêÆ x2)2 + (y1 ΓêÆ y2)2
+ΓÇô Mode 3: Chebyshev distance ΓÇö h(n) = max(|x1 ΓêÆ x2|, |y1 ΓêÆ y2|)
+
+ΓÇó Report Requirement: Compare the three heuristics with manual example runs where
+
+each heuristic has its advantage.
+
+3. Warehouse Robot Navigation with Obstacles (2.5 pts): Given a warehouse layout as
+an m ├ù n grid, where each cell is either passable (0) or blocked (1), implement A* to find the
+shortest path for a robot from a start coordinate to a goal coordinate.
+
+ΓÇó Input: Grid layout, start coordinate, goal coordinate, heuristic mode.
+ΓÇó Output: A linked list containing the sequence of moves with names chosen from the
+
+following set:
+
+ΓÇô Cardinal directions: Up, Down, Left, Right
+
+ΓÇô Diagonal directions: Up-Left, Up-Right, Down-Left, Down-Right
+
+Each node in the linked list should be named according to the direction taken (e.g.,
+"Down" or "Up-Right"), and must include the values of f (n), g(n), and h(n).
+
+ΓÇó Cost Function:
+
+ΓÇô g(n): Total cost from the start node to the current cell. - Horizontal and vertical
+moves cost 1 unit. - Diagonal moves cost 1.5 units. Thus, g(n) accumulates the sum
+of these move costs along the path.
+
+Discrete structure (CO1007) Assignment, Semester 2, Academic year 2025-2026
+
+Page 4/8
+
+University of Technology
+Faculty of Computer Science and Engineering
+
+ΓÇô h(n): Estimated cost to the goal, calculated using the selected heuristic mode:
+
+Γêù Mode 1: Manhattan distance ΓÇö h(n) = |x1 ΓêÆ x2| + |y1 ΓêÆ y2|
+Γêù Mode 2: Chebyshev distance ΓÇö h(n) = max(|x1 ΓêÆ x2|, |y1 ΓêÆ y2|)
+
+ΓÇô f (n) = g(n) + h(n)
+
+ΓÇó Report Requirement: Provide a manual example run with a small warehouse grid,
+showing the chosen directions and the computed g(n), h(n), and f (n) at each step and
+comparing both heuristic modes.
+
+4. Evacuation Route Planning (2.5 pts): Given a building floor plan represented as an
+m ├ù n grid, rebuild it as a graph using a weight matrix. Each tile is treated as a vertex.
+Implement A* to find the shortest evacuation route from a start coordinate to an exit.
+
+ΓÇó Input: Floor plan grid, start coordinate, exit coordinate, empty weight matrix, heuristic
+
+mode.
+
+ΓÇó Output: A linked list representing the path with f (n), g(n), and h(n) values, plus the
+
+final weight matrix.
+
+ΓÇó Cost Function:
+
+ΓÇô g(n): Total cost from the start node to the current vertex. - Horizontal and vertical
+moves cost 1 unit. - Diagonal moves cost 1.5 units. Thus, g(n) accumulates the sum
+of these move costs along the path.
+
+ΓÇô h(n): Estimated cost to the exit, calculated using the selected heuristic mode:
+
+Γêù Mode 1: Manhattan distance ΓÇö h(n) = |x1 ΓêÆ x2| + |y1 ΓêÆ y2|
+Γêù Mode 2: Chebyshev distance ΓÇö h(n) = max(|x1 ΓêÆ x2|, |y1 ΓêÆ y2|)
+
+ΓÇô f (n) = g(n) + h(n)
+
+ΓÇó Report Requirement: Describe the conversion process from grid to weight matrix and
+
+provide a manual example run comparing both heuristic modes.
+
+2.2 Function Naming for Auto Testing
+
+To facilitate automated testing, each programming task must be implemented as a function with
+the following standardized name and signature. The auto tester will use these function names to
+validate correctness.
+
+ΓÇó Task 1 ΓÇö Degrees of Separation in a Social Network:
+
+PathNode* findSocialPath(double adjMatrix[100][100], int startPerson, int goalPerson);
+
+ΓÇó Task 2 ΓÇö Drone Delivery in 2D Space with Three Heuristics:
+
+PathNode* findDronePath(double adjMatrix[100][100], int coords[100][2],
+int startPoint, int goalPoint, int mode);
+
+ΓÇó Task 3 ΓÇö Warehouse Robot Navigation with Obstacles:
+
+PathNode* findWarehousePath(int warehouse[100][100], int m, int n, int startX,
+int startY, int goalX, int goalY, int mode);
+
+ΓÇó Task 4 ΓÇö Evacuation Route Planning:
+
+PathNode* findEvacuationPath(int floorPlan[100][100], int m, int n, int startX,
+int startY, int exitX, int exitY, double weightMatrix[100][100], int mode);
+
+Discrete structure (CO1007) Assignment, Semester 2, Academic year 2025-2026
+
+Page 5/8
+
+University of Technology
+Faculty of Computer Science and Engineering
+
+Each function must return a pointer to the head of a linked list of PathNode objects, representing
+the path from start to goal. The list should include the direction (e.g., Up, Down, Left, Right, Up-
+Left, Up-Right, Down-Left, Down-Right) or coordinate name, along with the cost values (f (n),
+g(n), h(n)) for each step.
+
+2.3 Common Data Structure Requirement
+
+For all four problems described in this project, students must define and use a common linked
+list data structure to represent the solution path. Each node in the linked list must contain the
+following fields:
+
+ΓÇó Name: a std::string representing the name or label of the node (e.g., vertex name, coor-
+
+dinate).
+
+ΓÇó f (n): the total estimated cost from the start node to the goal through this node.
+
+ΓÇó g(n): the actual cost from the start node to this node.
+
+ΓÇó h(n): the heuristic estimate from this node to the goal.
+
+ΓÇó Next: a pointer to the next node in the path.
+
+Example (C++ struct):
+
+struct PathNode {
+
+std::string name;
+double f;
+double g;
+double h;
+PathNode* next;
+
+};
+
+This linked list should be used to store and output the final path found by the A* algorithm in
+each problem, preserving the order from the start node to the goal node. The following printPath
+function will be included in the LMS test case system for scoring. Make sure your struct works
+with it and donΓÇÖt include this function in your LMS code runner submission.
+
+void printPath(PathNode* head) {
+
+cout << "Solution Path:\n";
+while (head != nullptr) {
+
+cout << "Node: " << head->name
+
+<< " | f: " << head->f
+<< " | g: " << head->g
+<< " | h: " << head->h << "\n";
+
+head = head->next;
+
+}
+
+}
+
+3 VERSION INFO & QUESTIONS
+
+3.1 Version Info
+
+ΓÇó First Version
+
+Discrete structure (CO1007) Assignment, Semester 2, Academic year 2025-2026
+
+Page 6/8
+
+University of Technology
+Faculty of Computer Science and Engineering
+
+3.2 Guidelines for Asking Questions
+
+If you have any questions about the assignment, please use the official Google Form:
+https://forms.gle/aQd6spSQMK3Hux9H8
+
+Before submitting a question, you must first check whether it has already been answered in:
+
+ΓÇó The FAQ section (below),
+
+ΓÇó Other sections of this assignment document (instructions, requirements, submission rules,
+
+etc.), or
+
+ΓÇó The shared google sheet: Questions Response Sheet
+
+Important Penalty Rule: Submitting a question that has already been answered in
+
+this document, the FAQ, or the answer sheet will result in a penalty point.
+
+3.3 FAQ
+
+ΓÇó None yet
+
+4
+
+Instructions and requirements
+
+Students have to follow the instructions and comply with the requirements below. Lecturers do not
+solve the cases arising because students do not follow the instructions or do not comply with the
+requirements.
+
+4.1
+
+Instruction
+
+ΓÇó Deadline: All submissions must be completed by May 31th, 2026. Late submissions will not
+
+be accepted.
+
+ΓÇó Programming Language: All tasks must be implemented in C++.
+
+ΓÇó Clarity: Answers must be written clearly and coherently in both code and report form.
+
+4.2 Submission
+
+To receive a score, students must complete both submission steps:
+
+1. Auto-testing code submission: Submit your code to the designated auto-testcase runner
+on the LMS site. Each task has its own section in the submission interface. Note: The auto-
+testing submission portal will be opened later.
+
+2. File submission: Prepare all required files listed in Section 2.1. Place them into a folder
+named after your student ID (e.g., 2121323). Compress this folder into a .rar file with
+the same name (e.g., 2121323.rar). Submit this compressed file to the LMS file submission
+portal.
+
+ΓÇó The file submission portal will be available only on the final day of the deadline.
+ΓÇó Penalties: Each of the following errors will result in a -1 point deduction per oc-
+
+currence:
+
+Discrete structure (CO1007) Assignment, Semester 2, Academic year 2025-2026
+
+Page 7/8
+
+University of Technology
+Faculty of Computer Science and Engineering
+
+ΓÇô Missing required file
+
+ΓÇô Incorrect file name
+
+ΓÇô Incorrect folder name
+
+ΓÇô Incorrect compression format (must be .rar)
+
+ΓÇô Disorganized file structure
+
+4.3 Cheating treatment
+
+This project must be completed individually. Collaboration is limited to general discussion of
+concepts; all submitted code, reports, and explanations must be your own work. Any violation of
+these rules will be treated as academic misconduct under university regulations. A student will be
+considered to have committed cheating if:
+
+ΓÇó Unusual similarity of submissions: If two or more students submit work with significant
+overlap in code, structure, or written content, all parties will be considered to have cheated.
+Protect your work and do not share files or solutions.
+
+ΓÇó Lack of understanding of submitted work: If a student cannot explain the meaning,
+logic, or reasoning behind their own code or report when questioned, the submission will be
+treated as dishonest. You may consult textbooks, online resources, or discussions, but you
+must write and implement the ideas in your own words and code.
+
+ΓÇó Unauthorized copying: Directly copying solutions from peers, online sources, or AI tools
+
+without proper adaptation and understanding is prohibited.
+
+Important: Students are responsible for safeguarding their work. Sharing your files or allowing
+others to copy your solutions is considered cheating, even if you were not the one who copied. All
+cases of cheating will be handled according to the universityΓÇÖs disciplinary regulations.
+
+Discrete structure (CO1007) Assignment, Semester 2, Academic year 2025-2026
+
+Page 8/8
+
+

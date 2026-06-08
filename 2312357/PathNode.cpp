@@ -914,3 +914,785 @@
 // Node: Up-Right | f: 11 | g: 9 | h: 2
 // Node: Right | f: 11 | g: 10 | h: 1
 // Node: Right | f: 11 | g: 11 | h: 0
+
+// Test	Expected	Got	
+// int startX=0;
+// int startY=0;
+// int goalX=8;
+// int goalY=9;
+// int r=9,c=10;
+// double weightMatrix[100][100];
+// PathNode* OutPath;
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,1);
+// printPath(OutPath);
+// cout<<"Part of weight Matrix\n";
+// for(int i=0;i<10;i++){
+// for(int j=0;j<10;j++)
+// cout<<weightMatrix[i][j]<<" ";
+// cout<<endl;
+// }
+// Solution Path:
+// Node: (0, 0) | f: 17 | g: 0 | h: 17
+// Node: (1, 0) | f: 17 | g: 1 | h: 16
+// Node: (2, 1) | f: 16.5 | g: 2.5 | h: 14
+// Node: (2, 2) | f: 16.5 | g: 3.5 | h: 13
+// Node: (2, 3) | f: 16.5 | g: 4.5 | h: 12
+// Node: (3, 4) | f: 16 | g: 6 | h: 10
+// Node: (4, 5) | f: 15.5 | g: 7.5 | h: 8
+// Node: (5, 5) | f: 15.5 | g: 8.5 | h: 7
+// Node: (6, 6) | f: 15 | g: 10 | h: 5
+// Node: (7, 7) | f: 14.5 | g: 11.5 | h: 3
+// Node: (8, 8) | f: 14 | g: 13 | h: 1
+// Node: (8, 9) | f: 14 | g: 14 | h: 0
+// Part of weight Matrix
+// 0 1 0 0 0 0 0 0 0 0
+// 1 0 1 0 0 0 0 0 0 0
+// 0 1 0 1 0 0 0 0 0 0
+// 0 0 1 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 1 0 0 0
+// 0 0 0 0 0 1 0 1 0 0
+// 0 0 0 0 0 0 1 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// Solution Path:
+// Node: (0, 0) | f: 17 | g: 0 | h: 17
+// Node: (1, 0) | f: 17 | g: 1 | h: 16
+// Node: (2, 1) | f: 16.5 | g: 2.5 | h: 14
+// Node: (2, 2) | f: 16.5 | g: 3.5 | h: 13
+// Node: (2, 3) | f: 16.5 | g: 4.5 | h: 12
+// Node: (3, 4) | f: 16 | g: 6 | h: 10
+// Node: (4, 5) | f: 15.5 | g: 7.5 | h: 8
+// Node: (5, 5) | f: 15.5 | g: 8.5 | h: 7
+// Node: (6, 6) | f: 15 | g: 10 | h: 5
+// Node: (7, 7) | f: 14.5 | g: 11.5 | h: 3
+// Node: (8, 8) | f: 14 | g: 13 | h: 1
+// Node: (8, 9) | f: 14 | g: 14 | h: 0
+// Part of weight Matrix
+// 0 1 0 0 0 0 0 0 0 0
+// 1 0 1 0 0 0 0 0 0 0
+// 0 1 0 1 0 0 0 0 0 0
+// 0 0 1 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 1 0 0 0
+// 0 0 0 0 0 1 0 1 0 0
+// 0 0 0 0 0 0 1 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// int startX=0;
+// int startY=0;
+// int goalX=0;
+// int goalY=9;
+// int r=9,c=10;
+// double weightMatrix[100][100];
+// PathNode* OutPath;
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,2);
+// printPath(OutPath);
+// cout<<"Part of weight Matrix\n";
+// for(int i=0;i<10;i++){
+// for(int j=10;j<20;j++)
+// cout<<weightMatrix[i][j]<<" ";
+// cout<<endl;
+// }
+// Solution Path:
+// Node: (0, 0) | f: 9 | g: 0 | h: 9
+// Node: (1, 0) | f: 10 | g: 1 | h: 9
+// Node: (2, 1) | f: 10.5 | g: 2.5 | h: 8
+// Node: (2, 2) | f: 10.5 | g: 3.5 | h: 7
+// Node: (2, 3) | f: 10.5 | g: 4.5 | h: 6
+// Node: (2, 4) | f: 10.5 | g: 5.5 | h: 5
+// Node: (2, 5) | f: 10.5 | g: 6.5 | h: 4
+// Node: (2, 6) | f: 10.5 | g: 7.5 | h: 3
+// Node: (2, 7) | f: 10.5 | g: 8.5 | h: 2
+// Node: (1, 8) | f: 11 | g: 10 | h: 1
+// Node: (0, 9) | f: 11.5 | g: 11.5 | h: 0
+// Part of weight Matrix
+// 1 0 0 0 0 0 0 0 0 0
+// 1.5 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 1 1.5 0 0 0
+// 0 0 0 0 0 1.5 1 0 0 0
+// 0 0 0 0 0 0 1.5 0 1.5 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 1.5 1
+// Solution Path:
+// Node: (0, 0) | f: 9 | g: 0 | h: 9
+// Node: (1, 0) | f: 10 | g: 1 | h: 9
+// Node: (2, 1) | f: 10.5 | g: 2.5 | h: 8
+// Node: (2, 2) | f: 10.5 | g: 3.5 | h: 7
+// Node: (2, 3) | f: 10.5 | g: 4.5 | h: 6
+// Node: (2, 4) | f: 10.5 | g: 5.5 | h: 5
+// Node: (2, 5) | f: 10.5 | g: 6.5 | h: 4
+// Node: (2, 6) | f: 10.5 | g: 7.5 | h: 3
+// Node: (2, 7) | f: 10.5 | g: 8.5 | h: 2
+// Node: (1, 8) | f: 11 | g: 10 | h: 1
+// Node: (0, 9) | f: 11.5 | g: 11.5 | h: 0
+// Part of weight Matrix
+// 1 0 0 0 0 0 0 0 0 0
+// 1.5 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 1 1.5 0 0 0
+// 0 0 0 0 0 1.5 1 0 0 0
+// 0 0 0 0 0 0 1.5 0 1.5 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 1.5 1
+// int startX=4;
+// int startY=5;
+// int goalX=4;
+// int goalY=0;
+// int r=9,c=10;
+// double weightMatrix[100][100];
+// PathNode* OutPath;
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,1);
+// printPath(OutPath);
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,2);
+// printPath(OutPath);
+// cout<<"Part of weight Matrix\n";
+// for(int i=0;i<10;i++){
+// for(int j=10;j<20;j++)
+// cout<<weightMatrix[i][j]<<" ";
+// cout<<endl;
+// }
+// Solution Path:
+// Node: (4, 5) | f: 5 | g: 0 | h: 5
+// Node: (3, 4) | f: 6.5 | g: 1.5 | h: 5
+// Node: (2, 3) | f: 8 | g: 3 | h: 5
+// Node: (2, 2) | f: 8 | g: 4 | h: 4
+// Node: (2, 1) | f: 8 | g: 5 | h: 3
+// Node: (3, 0) | f: 7.5 | g: 6.5 | h: 1
+// Node: (4, 0) | f: 7.5 | g: 7.5 | h: 0
+// Solution Path:
+// Node: (4, 5) | f: 5 | g: 0 | h: 5
+// Node: (3, 4) | f: 5.5 | g: 1.5 | h: 4
+// Node: (2, 3) | f: 6 | g: 3 | h: 3
+// Node: (2, 2) | f: 6 | g: 4 | h: 2
+// Node: (2, 1) | f: 7 | g: 5 | h: 2
+// Node: (3, 0) | f: 7.5 | g: 6.5 | h: 1
+// Node: (4, 0) | f: 7.5 | g: 7.5 | h: 0
+// Part of weight Matrix
+// 1 0 0 0 0 0 0 0 0 0
+// 1.5 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 1 1.5 0 0 0
+// 0 0 0 0 0 1.5 1 0 0 0
+// 0 0 0 0 0 0 1.5 0 1.5 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 1.5 1
+// Solution Path:
+// Node: (4, 5) | f: 5 | g: 0 | h: 5
+// Node: (3, 4) | f: 6.5 | g: 1.5 | h: 5
+// Node: (2, 3) | f: 8 | g: 3 | h: 5
+// Node: (2, 2) | f: 8 | g: 4 | h: 4
+// Node: (2, 1) | f: 8 | g: 5 | h: 3
+// Node: (3, 0) | f: 7.5 | g: 6.5 | h: 1
+// Node: (4, 0) | f: 7.5 | g: 7.5 | h: 0
+// Solution Path:
+// Node: (4, 5) | f: 5 | g: 0 | h: 5
+// Node: (3, 4) | f: 5.5 | g: 1.5 | h: 4
+// Node: (2, 3) | f: 6 | g: 3 | h: 3
+// Node: (2, 2) | f: 6 | g: 4 | h: 2
+// Node: (2, 1) | f: 7 | g: 5 | h: 2
+// Node: (3, 0) | f: 7.5 | g: 6.5 | h: 1
+// Node: (4, 0) | f: 7.5 | g: 7.5 | h: 0
+// Part of weight Matrix
+// 1 0 0 0 0 0 0 0 0 0
+// 1.5 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 1 1.5 0 0 0
+// 0 0 0 0 0 1.5 1 0 0 0
+// 0 0 0 0 0 0 1.5 0 1.5 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 1.5 1
+// int startX=4;
+// int startY=5;
+// int goalX=0;
+// int goalY=5;
+// int r=9,c=10;
+// double weightMatrix[100][100];
+// PathNode* OutPath;
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,1);
+// printPath(OutPath);
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,2);
+// printPath(OutPath);
+// cout<<"Part of weight Matrix\n";
+// for(int i=0;i<10;i++){
+// for(int j=20;j<30;j++)
+// cout<<weightMatrix[i][j]<<" ";
+// cout<<endl;
+// }
+// Solution Path:
+// Node: (4, 5) | f: 4 | g: 0 | h: 4
+// Node: (3, 4) | f: 5.5 | g: 1.5 | h: 4
+// Node: (2, 5) | f: 5 | g: 3 | h: 2
+// Node: (1, 5) | f: 5 | g: 4 | h: 1
+// Node: (0, 5) | f: 5 | g: 5 | h: 0
+// Solution Path:
+// Node: (4, 5) | f: 4 | g: 0 | h: 4
+// Node: (3, 6) | f: 4.5 | g: 1.5 | h: 3
+// Node: (2, 6) | f: 4.5 | g: 2.5 | h: 2
+// Node: (1, 6) | f: 4.5 | g: 3.5 | h: 1
+// Node: (0, 5) | f: 5 | g: 5 | h: 0
+// Part of weight Matrix
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// Solution Path:
+// Node: (4, 5) | f: 4 | g: 0 | h: 4
+// Node: (3, 4) | f: 5.5 | g: 1.5 | h: 4
+// Node: (2, 5) | f: 5 | g: 3 | h: 2
+// Node: (1, 5) | f: 5 | g: 4 | h: 1
+// Node: (0, 5) | f: 5 | g: 5 | h: 0
+// Solution Path:
+// Node: (4, 5) | f: 4 | g: 0 | h: 4
+// Node: (3, 6) | f: 4.5 | g: 1.5 | h: 3
+// Node: (2, 6) | f: 4.5 | g: 2.5 | h: 2
+// Node: (1, 6) | f: 4.5 | g: 3.5 | h: 1
+// Node: (0, 5) | f: 5 | g: 5 | h: 0
+// Part of weight Matrix
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// int startX=4;
+// int startY=8;
+// int goalX=5;
+// int goalY=0;
+// int r=9,c=10;
+// double weightMatrix[100][100];
+// PathNode* OutPath;
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,1);
+// printPath(OutPath);
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,2);
+// printPath(OutPath);
+// cout<<"Part of weight Matrix\n";
+// for(int i=10;i<20;i++){
+// for(int j=20;j<30;j++)
+// cout<<weightMatrix[i][j]<<" ";
+// cout<<endl;
+// }
+// Solution Path:
+// Node: (4, 8) | f: 9 | g: 0 | h: 9
+// Node: (3, 7) | f: 10.5 | g: 1.5 | h: 9
+// Node: (3, 6) | f: 10.5 | g: 2.5 | h: 8
+// Node: (2, 5) | f: 12 | g: 4 | h: 8
+// Node: (2, 4) | f: 12 | g: 5 | h: 7
+// Node: (2, 3) | f: 12 | g: 6 | h: 6
+// Node: (2, 2) | f: 12 | g: 7 | h: 5
+// Node: (2, 1) | f: 12 | g: 8 | h: 4
+// Node: (3, 0) | f: 11.5 | g: 9.5 | h: 2
+// Node: (4, 0) | f: 11.5 | g: 10.5 | h: 1
+// Node: (5, 0) | f: 11.5 | g: 11.5 | h: 0
+// Solution Path:
+// Node: (4, 8) | f: 8 | g: 0 | h: 8
+// Node: (3, 7) | f: 8.5 | g: 1.5 | h: 7
+// Node: (3, 6) | f: 8.5 | g: 2.5 | h: 6
+// Node: (2, 5) | f: 9 | g: 4 | h: 5
+// Node: (2, 4) | f: 9 | g: 5 | h: 4
+// Node: (2, 3) | f: 9 | g: 6 | h: 3
+// Node: (2, 2) | f: 10 | g: 7 | h: 3
+// Node: (2, 1) | f: 11 | g: 8 | h: 3
+// Node: (3, 0) | f: 11.5 | g: 9.5 | h: 2
+// Node: (4, 0) | f: 11.5 | g: 10.5 | h: 1
+// Node: (5, 0) | f: 11.5 | g: 11.5 | h: 0
+// Part of weight Matrix
+// 1 1.5 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 1.5 1 1.5 0 0 0
+// 0 0 0 0 0 1.5 1 1.5 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 1.5 1 1.5
+// 0 0 0 0 0 0 0 0 1.5 1
+// Solution Path:
+// Node: (4, 8) | f: 9 | g: 0 | h: 9
+// Node: (3, 7) | f: 10.5 | g: 1.5 | h: 9
+// Node: (3, 6) | f: 10.5 | g: 2.5 | h: 8
+// Node: (2, 5) | f: 12 | g: 4 | h: 8
+// Node: (2, 4) | f: 12 | g: 5 | h: 7
+// Node: (2, 3) | f: 12 | g: 6 | h: 6
+// Node: (2, 2) | f: 12 | g: 7 | h: 5
+// Node: (2, 1) | f: 12 | g: 8 | h: 4
+// Node: (3, 0) | f: 11.5 | g: 9.5 | h: 2
+// Node: (4, 0) | f: 11.5 | g: 10.5 | h: 1
+// Node: (5, 0) | f: 11.5 | g: 11.5 | h: 0
+// Solution Path:
+// Node: (4, 8) | f: 8 | g: 0 | h: 8
+// Node: (3, 7) | f: 8.5 | g: 1.5 | h: 7
+// Node: (3, 6) | f: 8.5 | g: 2.5 | h: 6
+// Node: (2, 5) | f: 9 | g: 4 | h: 5
+// Node: (2, 4) | f: 9 | g: 5 | h: 4
+// Node: (2, 3) | f: 9 | g: 6 | h: 3
+// Node: (2, 2) | f: 10 | g: 7 | h: 3
+// Node: (2, 1) | f: 11 | g: 8 | h: 3
+// Node: (3, 0) | f: 11.5 | g: 9.5 | h: 2
+// Node: (4, 0) | f: 11.5 | g: 10.5 | h: 1
+// Node: (5, 0) | f: 11.5 | g: 11.5 | h: 0
+// Part of weight Matrix
+// 1 1.5 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 1.5 1 1.5 0 0 0
+// 0 0 0 0 0 1.5 1 1.5 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 1.5 1 1.5
+// 0 0 0 0 0 0 0 0 1.5 1
+// int startX=4;
+// int startY=8;
+// int goalX=0;
+// int goalY=3;
+// int r=9,c=10;
+// double weightMatrix[100][100];
+// PathNode* OutPath;
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,1);
+// printPath(OutPath);
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,2);
+// printPath(OutPath);
+// cout<<"Part of weight Matrix\n";
+// for(int i=20;i<30;i++){
+// for(int j=20;j<30;j++)
+// cout<<weightMatrix[i][j]<<" ";
+// cout<<endl;
+// }
+// Solution Path:
+// Node: (4, 8) | f: 9 | g: 0 | h: 9
+// Node: (3, 7) | f: 8.5 | g: 1.5 | h: 7
+// Node: (2, 6) | f: 8 | g: 3 | h: 5
+// Node: (2, 5) | f: 8 | g: 4 | h: 4
+// Node: (2, 4) | f: 8 | g: 5 | h: 3
+// Node: (2, 3) | f: 8 | g: 6 | h: 2
+// Node: (2, 2) | f: 10 | g: 7 | h: 3
+// Node: (2, 1) | f: 12 | g: 8 | h: 4
+// Node: (1, 0) | f: 13.5 | g: 9.5 | h: 4
+// Node: (0, 1) | f: 13 | g: 11 | h: 2
+// Node: (0, 2) | f: 13 | g: 12 | h: 1
+// Node: (0, 3) | f: 13 | g: 13 | h: 0
+// Solution Path:
+// Node: (4, 8) | f: 5 | g: 0 | h: 5
+// Node: (3, 7) | f: 5.5 | g: 1.5 | h: 4
+// Node: (3, 6) | f: 5.5 | g: 2.5 | h: 3
+// Node: (2, 5) | f: 6 | g: 4 | h: 2
+// Node: (2, 4) | f: 7 | g: 5 | h: 2
+// Node: (2, 3) | f: 8 | g: 6 | h: 2
+// Node: (2, 2) | f: 9 | g: 7 | h: 2
+// Node: (2, 1) | f: 10 | g: 8 | h: 2
+// Node: (1, 0) | f: 12.5 | g: 9.5 | h: 3
+// Node: (0, 1) | f: 13 | g: 11 | h: 2
+// Node: (0, 2) | f: 13 | g: 12 | h: 1
+// Node: (0, 3) | f: 13 | g: 13 | h: 0
+// Part of weight Matrix
+// 0 1 0 0 0 0 0 0 0 0
+// 1 0 1 0 0 0 0 0 0 0
+// 0 1 0 1 0 0 0 0 0 0
+// 0 0 1 0 1 0 0 0 0 0
+// 0 0 0 1 0 1 0 0 0 0
+// 0 0 0 0 1 0 1 0 0 0
+// 0 0 0 0 0 1 0 1 0 0
+// 0 0 0 0 0 0 1 0 1 0
+// 0 0 0 0 0 0 0 1 0 1
+// 0 0 0 0 0 0 0 0 1 0
+// Solution Path:
+// Node: (4, 8) | f: 9 | g: 0 | h: 9
+// Node: (3, 7) | f: 8.5 | g: 1.5 | h: 7
+// Node: (2, 6) | f: 8 | g: 3 | h: 5
+// Node: (2, 5) | f: 8 | g: 4 | h: 4
+// Node: (2, 4) | f: 8 | g: 5 | h: 3
+// Node: (2, 3) | f: 8 | g: 6 | h: 2
+// Node: (2, 2) | f: 10 | g: 7 | h: 3
+// Node: (2, 1) | f: 12 | g: 8 | h: 4
+// Node: (1, 0) | f: 13.5 | g: 9.5 | h: 4
+// Node: (0, 1) | f: 13 | g: 11 | h: 2
+// Node: (0, 2) | f: 13 | g: 12 | h: 1
+// Node: (0, 3) | f: 13 | g: 13 | h: 0
+// Solution Path:
+// Node: (4, 8) | f: 5 | g: 0 | h: 5
+// Node: (3, 7) | f: 5.5 | g: 1.5 | h: 4
+// Node: (3, 6) | f: 5.5 | g: 2.5 | h: 3
+// Node: (2, 5) | f: 6 | g: 4 | h: 2
+// Node: (2, 4) | f: 7 | g: 5 | h: 2
+// Node: (2, 3) | f: 8 | g: 6 | h: 2
+// Node: (2, 2) | f: 9 | g: 7 | h: 2
+// Node: (2, 1) | f: 10 | g: 8 | h: 2
+// Node: (1, 0) | f: 12.5 | g: 9.5 | h: 3
+// Node: (0, 1) | f: 13 | g: 11 | h: 2
+// Node: (0, 2) | f: 13 | g: 12 | h: 1
+// Node: (0, 3) | f: 13 | g: 13 | h: 0
+// Part of weight Matrix
+// 0 1 0 0 0 0 0 0 0 0
+// 1 0 1 0 0 0 0 0 0 0
+// 0 1 0 1 0 0 0 0 0 0
+// 0 0 1 0 1 0 0 0 0 0
+// 0 0 0 1 0 1 0 0 0 0
+// 0 0 0 0 1 0 1 0 0 0
+// 0 0 0 0 0 1 0 1 0 0
+// 0 0 0 0 0 0 1 0 1 0
+// 0 0 0 0 0 0 0 1 0 1
+// 0 0 0 0 0 0 0 0 1 0
+// int startX=8;
+// int startY=0;
+// int goalX=0;
+// int goalY=9;
+// int r=9,c=10;
+// double weightMatrix[100][100];
+// PathNode* OutPath;
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,1);
+// printPath(OutPath);
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,2);
+// printPath(OutPath);
+// cout<<"Part of weight Matrix\n";
+// for(int i=30;i<40;i++){
+// for(int j=10;j<20;j++)
+// cout<<weightMatrix[i][j]<<" ";
+// cout<<endl;
+// }
+// Solution Path:
+// Node: (8, 0) | f: 17 | g: 0 | h: 17
+// Node: (7, 1) | f: 16.5 | g: 1.5 | h: 15
+// Node: (6, 2) | f: 16 | g: 3 | h: 13
+// Node: (5, 3) | f: 15.5 | g: 4.5 | h: 11
+// Node: (4, 3) | f: 15.5 | g: 5.5 | h: 10
+// Node: (3, 4) | f: 15 | g: 7 | h: 8
+// Node: (2, 5) | f: 14.5 | g: 8.5 | h: 6
+// Node: (2, 6) | f: 14.5 | g: 9.5 | h: 5
+// Node: (2, 7) | f: 14.5 | g: 10.5 | h: 4
+// Node: (1, 8) | f: 14 | g: 12 | h: 2
+// Node: (0, 9) | f: 13.5 | g: 13.5 | h: 0
+// Solution Path:
+// Node: (8, 0) | f: 9 | g: 0 | h: 9
+// Node: (7, 1) | f: 9.5 | g: 1.5 | h: 8
+// Node: (6, 2) | f: 10 | g: 3 | h: 7
+// Node: (5, 3) | f: 10.5 | g: 4.5 | h: 6
+// Node: (5, 4) | f: 10.5 | g: 5.5 | h: 5
+// Node: (4, 5) | f: 11 | g: 7 | h: 4
+// Node: (3, 6) | f: 11.5 | g: 8.5 | h: 3
+// Node: (2, 7) | f: 12 | g: 10 | h: 2
+// Node: (1, 8) | f: 12.5 | g: 11.5 | h: 1
+// Node: (0, 9) | f: 13 | g: 13 | h: 0
+// Part of weight Matrix
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// Solution Path:
+// Node: (8, 0) | f: 17 | g: 0 | h: 17
+// Node: (7, 1) | f: 16.5 | g: 1.5 | h: 15
+// Node: (6, 2) | f: 16 | g: 3 | h: 13
+// Node: (5, 3) | f: 15.5 | g: 4.5 | h: 11
+// Node: (4, 3) | f: 15.5 | g: 5.5 | h: 10
+// Node: (3, 4) | f: 15 | g: 7 | h: 8
+// Node: (2, 5) | f: 14.5 | g: 8.5 | h: 6
+// Node: (2, 6) | f: 14.5 | g: 9.5 | h: 5
+// Node: (2, 7) | f: 14.5 | g: 10.5 | h: 4
+// Node: (1, 8) | f: 14 | g: 12 | h: 2
+// Node: (0, 9) | f: 13.5 | g: 13.5 | h: 0
+// Solution Path:
+// Node: (8, 0) | f: 9 | g: 0 | h: 9
+// Node: (7, 1) | f: 9.5 | g: 1.5 | h: 8
+// Node: (6, 2) | f: 10 | g: 3 | h: 7
+// Node: (5, 3) | f: 10.5 | g: 4.5 | h: 6
+// Node: (5, 4) | f: 10.5 | g: 5.5 | h: 5
+// Node: (4, 5) | f: 11 | g: 7 | h: 4
+// Node: (3, 6) | f: 11.5 | g: 8.5 | h: 3
+// Node: (2, 7) | f: 12 | g: 10 | h: 2
+// Node: (1, 8) | f: 12.5 | g: 11.5 | h: 1
+// Node: (0, 9) | f: 13 | g: 13 | h: 0
+// Part of weight Matrix
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// int startX=8;
+// int startY=0;
+// int goalX=0;
+// int goalY=7;
+// int r=9,c=10;
+// double weightMatrix[100][100];
+// PathNode* OutPath;
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,1);
+// printPath(OutPath);
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,2);
+// printPath(OutPath);
+// cout<<"Part of weight Matrix\n";
+// for(int i=30;i<40;i++){
+// for(int j=20;j<30;j++)
+// cout<<weightMatrix[i][j]<<" ";
+// cout<<endl;
+// }
+// Solution Path:
+// Node: (8, 0) | f: 15 | g: 0 | h: 15
+// Node: (7, 1) | f: 14.5 | g: 1.5 | h: 13
+// Node: (6, 2) | f: 14 | g: 3 | h: 11
+// Node: (5, 3) | f: 13.5 | g: 4.5 | h: 9
+// Node: (4, 3) | f: 13.5 | g: 5.5 | h: 8
+// Node: (3, 4) | f: 13 | g: 7 | h: 6
+// Node: (2, 5) | f: 12.5 | g: 8.5 | h: 4
+// Node: (1, 6) | f: 12 | g: 10 | h: 2
+// Node: (0, 7) | f: 11.5 | g: 11.5 | h: 0
+// Solution Path:
+// Node: (8, 0) | f: 8 | g: 0 | h: 8
+// Node: (7, 1) | f: 8.5 | g: 1.5 | h: 7
+// Node: (6, 2) | f: 9 | g: 3 | h: 6
+// Node: (5, 3) | f: 9.5 | g: 4.5 | h: 5
+// Node: (4, 3) | f: 9.5 | g: 5.5 | h: 4
+// Node: (3, 4) | f: 10 | g: 7 | h: 3
+// Node: (2, 5) | f: 10.5 | g: 8.5 | h: 2
+// Node: (1, 6) | f: 11 | g: 10 | h: 1
+// Node: (0, 7) | f: 11.5 | g: 11.5 | h: 0
+// Part of weight Matrix
+// 1 1.5 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 1.5 1 1.5 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 1.5 1 1.5 0 0
+// 0 0 0 0 0 0 1.5 1 1.5 0
+// 0 0 0 0 0 0 0 1.5 1 1.5
+// 0 0 0 0 0 0 0 0 0 0
+// Solution Path:
+// Node: (8, 0) | f: 15 | g: 0 | h: 15
+// Node: (7, 1) | f: 14.5 | g: 1.5 | h: 13
+// Node: (6, 2) | f: 14 | g: 3 | h: 11
+// Node: (5, 3) | f: 13.5 | g: 4.5 | h: 9
+// Node: (4, 3) | f: 13.5 | g: 5.5 | h: 8
+// Node: (3, 4) | f: 13 | g: 7 | h: 6
+// Node: (2, 5) | f: 12.5 | g: 8.5 | h: 4
+// Node: (1, 6) | f: 12 | g: 10 | h: 2
+// Node: (0, 7) | f: 11.5 | g: 11.5 | h: 0
+// Solution Path:
+// Node: (8, 0) | f: 8 | g: 0 | h: 8
+// Node: (7, 1) | f: 8.5 | g: 1.5 | h: 7
+// Node: (6, 2) | f: 9 | g: 3 | h: 6
+// Node: (5, 3) | f: 9.5 | g: 4.5 | h: 5
+// Node: (4, 3) | f: 9.5 | g: 5.5 | h: 4
+// Node: (3, 4) | f: 10 | g: 7 | h: 3
+// Node: (2, 5) | f: 10.5 | g: 8.5 | h: 2
+// Node: (1, 6) | f: 11 | g: 10 | h: 1
+// Node: (0, 7) | f: 11.5 | g: 11.5 | h: 0
+// Part of weight Matrix
+// 1 1.5 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 1.5 1 1.5 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 1.5 1 1.5 0 0
+// 0 0 0 0 0 0 1.5 1 1.5 0
+// 0 0 0 0 0 0 0 1.5 1 1.5
+// 0 0 0 0 0 0 0 0 0 0
+// int startX=5;
+// int startY=7;
+// int goalX=0;
+// int goalY=3;
+// int r=9,c=10;
+// double weightMatrix[100][100];
+// PathNode* OutPath;
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,1);
+// printPath(OutPath);
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,2);
+// printPath(OutPath);
+// cout<<"Part of weight Matrix\n";
+// for(int i=30;i<40;i++){
+// for(int j=30;j<40;j++)
+// cout<<weightMatrix[i][j]<<" ";
+// cout<<endl;
+// }
+// Solution Path:
+// Node: (5, 7) | f: 9 | g: 0 | h: 9
+// Node: (4, 8) | f: 10.5 | g: 1.5 | h: 9
+// Node: (3, 7) | f: 10 | g: 3 | h: 7
+// Node: (2, 6) | f: 9.5 | g: 4.5 | h: 5
+// Node: (2, 5) | f: 9.5 | g: 5.5 | h: 4
+// Node: (2, 4) | f: 9.5 | g: 6.5 | h: 3
+// Node: (2, 3) | f: 9.5 | g: 7.5 | h: 2
+// Node: (2, 2) | f: 11.5 | g: 8.5 | h: 3
+// Node: (2, 1) | f: 13.5 | g: 9.5 | h: 4
+// Node: (1, 0) | f: 15 | g: 11 | h: 4
+// Node: (0, 1) | f: 14.5 | g: 12.5 | h: 2
+// Node: (0, 2) | f: 14.5 | g: 13.5 | h: 1
+// Node: (0, 3) | f: 14.5 | g: 14.5 | h: 0
+// Solution Path:
+// Node: (5, 7) | f: 5 | g: 0 | h: 5
+// Node: (6, 6) | f: 7.5 | g: 1.5 | h: 6
+// Node: (5, 5) | f: 8 | g: 3 | h: 5
+// Node: (4, 5) | f: 8 | g: 4 | h: 4
+// Node: (3, 4) | f: 8.5 | g: 5.5 | h: 3
+// Node: (2, 3) | f: 9 | g: 7 | h: 2
+// Node: (2, 2) | f: 10 | g: 8 | h: 2
+// Node: (2, 1) | f: 11 | g: 9 | h: 2
+// Node: (1, 0) | f: 13.5 | g: 10.5 | h: 3
+// Node: (0, 1) | f: 14 | g: 12 | h: 2
+// Node: (0, 2) | f: 14 | g: 13 | h: 1
+// Node: (0, 3) | f: 14 | g: 14 | h: 0
+// Part of weight Matrix
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 1 0 0
+// 0 0 0 0 0 0 1 0 1 0
+// 0 0 0 0 0 0 0 1 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// Solution Path:
+// Node: (5, 7) | f: 9 | g: 0 | h: 9
+// Node: (4, 8) | f: 10.5 | g: 1.5 | h: 9
+// Node: (3, 7) | f: 10 | g: 3 | h: 7
+// Node: (2, 6) | f: 9.5 | g: 4.5 | h: 5
+// Node: (2, 5) | f: 9.5 | g: 5.5 | h: 4
+// Node: (2, 4) | f: 9.5 | g: 6.5 | h: 3
+// Node: (2, 3) | f: 9.5 | g: 7.5 | h: 2
+// Node: (2, 2) | f: 11.5 | g: 8.5 | h: 3
+// Node: (2, 1) | f: 13.5 | g: 9.5 | h: 4
+// Node: (1, 0) | f: 15 | g: 11 | h: 4
+// Node: (0, 1) | f: 14.5 | g: 12.5 | h: 2
+// Node: (0, 2) | f: 14.5 | g: 13.5 | h: 1
+// Node: (0, 3) | f: 14.5 | g: 14.5 | h: 0
+// Solution Path:
+// Node: (5, 7) | f: 5 | g: 0 | h: 5
+// Node: (6, 6) | f: 7.5 | g: 1.5 | h: 6
+// Node: (5, 5) | f: 8 | g: 3 | h: 5
+// Node: (4, 5) | f: 8 | g: 4 | h: 4
+// Node: (3, 4) | f: 8.5 | g: 5.5 | h: 3
+// Node: (2, 3) | f: 9 | g: 7 | h: 2
+// Node: (2, 2) | f: 10 | g: 8 | h: 2
+// Node: (2, 1) | f: 11 | g: 9 | h: 2
+// Node: (1, 0) | f: 13.5 | g: 10.5 | h: 3
+// Node: (0, 1) | f: 14 | g: 12 | h: 2
+// Node: (0, 2) | f: 14 | g: 13 | h: 1
+// Node: (0, 3) | f: 14 | g: 14 | h: 0
+// Part of weight Matrix
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 1 0 0
+// 0 0 0 0 0 0 1 0 1 0
+// 0 0 0 0 0 0 0 1 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// int startX=7;
+// int startY=2;
+// int goalX=0;
+// int goalY=3;
+// int r=9,c=10;
+// double weightMatrix[100][100];
+// PathNode* OutPath;
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,1);
+// printPath(OutPath);
+// OutPath=findEvacuationPath(Maze1, r, c, startX,startY,goalX,goalY,weightMatrix,2);
+// printPath(OutPath);
+// cout<<"Part of weight Matrix\n";
+// for(int i=70;i<80;i++){
+// for(int j=80;j<90;j++)
+// cout<<weightMatrix[i][j]<<" ";
+// cout<<endl;
+// }
+// Solution Path:
+// Node: (7, 2) | f: 8 | g: 0 | h: 8
+// Node: (7, 1) | f: 10 | g: 1 | h: 9
+// Node: (6, 0) | f: 11.5 | g: 2.5 | h: 9
+// Node: (5, 0) | f: 11.5 | g: 3.5 | h: 8
+// Node: (4, 0) | f: 11.5 | g: 4.5 | h: 7
+// Node: (3, 0) | f: 11.5 | g: 5.5 | h: 6
+// Node: (2, 0) | f: 11.5 | g: 6.5 | h: 5
+// Node: (1, 0) | f: 11.5 | g: 7.5 | h: 4
+// Node: (0, 1) | f: 11 | g: 9 | h: 2
+// Node: (0, 2) | f: 11 | g: 10 | h: 1
+// Node: (0, 3) | f: 11 | g: 11 | h: 0
+// Solution Path:
+// Node: (7, 2) | f: 7 | g: 0 | h: 7
+// Node: (7, 1) | f: 8 | g: 1 | h: 7
+// Node: (6, 0) | f: 8.5 | g: 2.5 | h: 6
+// Node: (5, 0) | f: 8.5 | g: 3.5 | h: 5
+// Node: (4, 0) | f: 8.5 | g: 4.5 | h: 4
+// Node: (3, 0) | f: 8.5 | g: 5.5 | h: 3
+// Node: (2, 0) | f: 9.5 | g: 6.5 | h: 3
+// Node: (1, 0) | f: 10.5 | g: 7.5 | h: 3
+// Node: (0, 1) | f: 11 | g: 9 | h: 2
+// Node: (0, 2) | f: 11 | g: 10 | h: 1
+// Node: (0, 3) | f: 11 | g: 11 | h: 0
+// Part of weight Matrix
+// 1 1.5 0 0 0 0 0 0 0 0
+// 1.5 1 1.5 0 0 0 0 0 0 0
+// 0 1.5 1 1.5 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 1.5 1 1.5 0 0 0
+// 0 0 0 0 0 1.5 1 1.5 0 0
+// 0 0 0 0 0 0 1.5 1 1.5 0
+// 0 0 0 0 0 0 0 1.5 1 1.5
+// 0 0 0 0 0 0 0 0 0 0
+// Solution Path:
+// Node: (7, 2) | f: 8 | g: 0 | h: 8
+// Node: (7, 1) | f: 10 | g: 1 | h: 9
+// Node: (6, 0) | f: 11.5 | g: 2.5 | h: 9
+// Node: (5, 0) | f: 11.5 | g: 3.5 | h: 8
+// Node: (4, 0) | f: 11.5 | g: 4.5 | h: 7
+// Node: (3, 0) | f: 11.5 | g: 5.5 | h: 6
+// Node: (2, 0) | f: 11.5 | g: 6.5 | h: 5
+// Node: (1, 0) | f: 11.5 | g: 7.5 | h: 4
+// Node: (0, 1) | f: 11 | g: 9 | h: 2
+// Node: (0, 2) | f: 11 | g: 10 | h: 1
+// Node: (0, 3) | f: 11 | g: 11 | h: 0
+// Solution Path:
+// Node: (7, 2) | f: 7 | g: 0 | h: 7
+// Node: (7, 1) | f: 8 | g: 1 | h: 7
+// Node: (6, 0) | f: 8.5 | g: 2.5 | h: 6
+// Node: (5, 0) | f: 8.5 | g: 3.5 | h: 5
+// Node: (4, 0) | f: 8.5 | g: 4.5 | h: 4
+// Node: (3, 0) | f: 8.5 | g: 5.5 | h: 3
+// Node: (2, 0) | f: 9.5 | g: 6.5 | h: 3
+// Node: (1, 0) | f: 10.5 | g: 7.5 | h: 3
+// Node: (0, 1) | f: 11 | g: 9 | h: 2
+// Node: (0, 2) | f: 11 | g: 10 | h: 1
+// Node: (0, 3) | f: 11 | g: 11 | h: 0
+// Part of weight Matrix
+// 1 1.5 0 0 0 0 0 0 0 0
+// 1.5 1 1.5 0 0 0 0 0 0 0
+// 0 1.5 1 1.5 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 0 0 0 0 0 0
+// 0 0 0 0 1.5 1 1.5 0 0 0
+// 0 0 0 0 0 1.5 1 1.5 0 0
+// 0 0 0 0 0 0 1.5 1 1.5 0
+// 0 0 0 0 0 0 0 1.5 1 1.5
+// 0 0 0 0 0 0 0 0 0 0
